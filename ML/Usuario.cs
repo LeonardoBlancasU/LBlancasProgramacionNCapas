@@ -16,5 +16,7 @@ namespace ML
 
         public decimal Costo {  get; set; }
 
+        public ML.Rol Rol { get; set; }
+
     }
 }

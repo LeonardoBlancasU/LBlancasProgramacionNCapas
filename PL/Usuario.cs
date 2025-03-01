@@ -32,8 +32,12 @@ namespace PL
 
             usuario.Costo = Convert.ToDecimal(Console.ReadLine());
 
+            Console.WriteLine("Ingresa el ID Rol del Usuario");
+            usuario.Rol =new ML.Rol();
+            usuario.Rol.IdRol = Convert.ToByte(Console.ReadLine()) ;
 
-            ML.Result result = BL.Usuario.Add(usuario);
+            //ML.Result result = BL.Usuario.Add(usuario);
+            ML.Result result = BL.Usuario.AddSP(usuario);
 
             if (result.Correct)
             {
@@ -72,8 +76,12 @@ namespace PL
 
             usuario.Costo = Convert.ToDecimal(Console.ReadLine());
 
+            Console.WriteLine("Ingresa el ID Rol del Usuario a Actualizar");
+            usuario.Rol = new ML.Rol();
+            usuario.Rol.IdRol = Convert.ToByte(Console.ReadLine());
 
-            ML.Result result = BL.Usuario.Update(usuario);
+            //ML.Result result = BL.Usuario.Update(usuario);
+            ML.Result result = BL.Usuario.UpdateSP(usuario);
 
             if (result.Correct)
             {
@@ -86,14 +94,12 @@ namespace PL
         }
 
         public static void Delete()
-        {
-            ML.Usuario usuario = new ML.Usuario();
+        {   Console.WriteLine("Ingrese el ID del Usuario a Eliminar: ");
 
-            Console.WriteLine("Ingrese el ID del Usuario a Eliminar: ");
+            int IdUsuario = Convert.ToInt32(Console.ReadLine());
 
-            usuario.IdUsuario = Convert.ToInt32(Console.ReadLine());
-
-            ML.Result result = BL.Usuario.Delete(usuario);
+            //ML.Result result = BL.Usuario.Delete(usuario);
+            ML.Result result = BL.Usuario.DeleteSP(IdUsuario);
 
             if (result.Correct)
             {
@@ -103,10 +109,59 @@ namespace PL
             {
                 Console.WriteLine("Ocurrió un error al eliminar al Usuario");
             }
-            Console.WriteLine("Presiona una tecla para salir...");
-            Console.ReadKey();
         }
 
+        public static void GetAll()
+        {
+            ML.Result result = BL.Usuario.GetAllAdapter();
+
+            if (result.Correct)
+            {
+                Console.WriteLine("Aqui tienes la Lista de Usuarios:\n");
+                foreach (ML.Usuario usuario in result.Objects)
+                {
+                    Console.WriteLine("ID: " + usuario.IdUsuario);
+                    Console.WriteLine("Nombre:" + usuario.Nombre);
+                    Console.WriteLine("Edad: " + usuario.Edad);
+                    Console.WriteLine("Dirección: " + usuario.Direccion);
+                    Console.WriteLine("CURP: " + usuario.Curp);
+                    Console.WriteLine("Costo: " + usuario.Costo);
+                    Console.WriteLine("ID ROL:" + usuario.Rol.IdRol + "\n");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Ocurrió un problema: {result.ErrorMessage} ");
+            }
+           
+        }
+
+        public static void GetById()
+        {
+           
+            Console.WriteLine("Ingresa el Id del Usuario que quieras Mostrar");
+            int IdUsuario = Convert.ToInt32(Console.ReadLine());
+
+            ML.Result result = BL.Usuario.GetByIdAdapter(IdUsuario);
+
+            if (result.Correct)
+            {
+                ML.Usuario usuario = (ML.Usuario)result.Object;
+                Console.WriteLine("Aqui tienes la Información del Usuario:\n");
+                Console.WriteLine($"ID: {usuario.IdUsuario}");
+                Console.WriteLine($"Nombre: {usuario.Nombre}");
+                Console.WriteLine($"Edad: {usuario.Edad}");
+                Console.WriteLine($"Dirección: {usuario.Direccion}");
+                Console.WriteLine($"CURP: {usuario.Curp}");
+                Console.WriteLine($"Costo: {usuario.Costo}");
+                Console.WriteLine("ID ROL:" + usuario.Rol.IdRol + "\n");
+            }
+            else
+            {
+                Console.WriteLine($"Ocurrió un problema al mostrar la informacion: {result.ErrorMessage}");
+            }
+            
+        }
     }
-    }
+}
 
