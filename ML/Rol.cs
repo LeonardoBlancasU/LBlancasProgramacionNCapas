@@ -8,7 +8,12 @@ namespace ML
 {
     public class Rol
     {
-        public byte IdRol {  get; set; }
+        public byte IdRol { get; set; }
         public string Nombre { get; set; }
+        public List<object> Roles { get; set; }
+        public Rol()
+        {
+            Roles = new List<object>();
+        }
     }
 }

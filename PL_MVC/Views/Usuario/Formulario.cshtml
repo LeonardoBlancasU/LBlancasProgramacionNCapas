@@ -1,0 +1,148 @@
+﻿@model ML.Usuario
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Usuario</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h5>Ingrese los datos del usuario</h5>
+            <hr />
+        </div>
+    </div>
+
+    @using (Html.BeginForm("Formulario", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @Html.LabelFor(model => model.IdUsuario, new { @class = "form-label" }) <i class="bi bi-search"></i>
+                @Html.TextBoxFor(model => model.IdUsuario, new { @class = "form-control" })
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @Html.LabelFor(model => model.Nombre, new { @class = "form-label" }) <i class="bi bi-clipboard-fill"></i>
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" }) 
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @Html.LabelFor(model => model.ApellidoPaterno, new { @class = "form-label" }) <i class="bi bi-clipboard-minus"></i>
+                @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @Html.LabelFor(model => model.ApellidoMaterno, new { @class = "form-label" }) <i class="bi bi-clipboard-minus"></i>
+                @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control" })
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @Html.LabelFor(model => model.Email, new { @class = "form-label" }) <i class="bi bi-envelope-at"></i>
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @Html.LabelFor(model => model.Password, new { @class = "form-label" }) <i class="bi bi-journal-x"></i>
+                @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @Html.LabelFor(model => model.FechaNacimiento, new { @class = "form-label" }) <i class="bi bi-calendar"></i>
+                @Html.TextBoxFor(model => model.FechaNacimiento, new { @class = "form-control" })
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @Html.LabelFor(model => model.Sexo, new { @class = "form-label" }) <i class="bi bi-gender-neuter"></i>
+                @Html.TextBoxFor(model => model.Sexo, new { @class = "form-control" })
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @Html.LabelFor(model => model.Telefono, new { @class = "form-label" }) <i class="bi bi-telephone-fill"></i>
+                @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @Html.LabelFor(model => model.Celular, new { @class = "form-label" }) <i class="bi bi-phone"></i>
+                @Html.TextBoxFor(model => model.Celular, new { @class = "form-control" })
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @Html.LabelFor(model => model.Estatus, new { @class = "form-label" }) <i class="bi bi-journal-check"></i>
+                @Html.TextBoxFor(model => model.Estatus, new { @class = "form-control" })
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @Html.LabelFor(model => model.CURP, new { @class = "form-label" }) <i class="bi bi-archive"></i>
+                @Html.TextBoxFor(model => model.CURP, new { @class = "form-control" })
+            </div>
+            </div>
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @Html.LabelFor(model => model.UserName, new { @class = "form-label" }) <i class="bi bi-pen-fill"></i>
+                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @Html.Label("Imagen", new { @class = "form-label" }) <i class="bi bi-card-image"></i>
+                <input type="file" class="form-control" name="ImagenFile" accept="image/*" onchange="PrevisualizarYValidarImagen(event)" />
+                <br>
+                <img id="imgUsuario" src="@((Model.Imagen !=null)? $"data:image/*;base64,{Convert.ToBase64String(Model.Imagen)}": Url.Content("~/Img/Default.png"))"
+                    width="50" height="50" style="margin-top: 10px;"/>
+                @Html.HiddenFor(model => model.Imagen)
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @Html.LabelFor(model => model.Rol.IdRol, new { @class = "form-label" }) <i class="bi bi-list"></i>
+                @Html.DropDownListFor(model => model.Rol.IdRol,
+                        new SelectList(Model.Rol.Roles, "IdRol", "Nombre"),
+                        "-- Seleccione un Rol --",
+                        new { @class = "form-control" })
+            </div>
+            
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <input type="submit" value="Guardar" class="btn btn-success" />
+            </div>
+
+            <div class="col-12">
+                @Html.ActionLink("Regresar", "GetAll", "Usuario", new { @class = "btn btn-danger" })
+            </div>
+
+            @if (TempData["Actualizado"] != null)
+            {
+                <div class="alert alert-success">
+                    <i class="bi bi-send"> @TempData["Actualizado"]</i>
+                    </div>            }
+        </div>
+     }
+ </div>
+
+<script type="text/javascript">
+    function PrevisualizarYValidarImagen(event)
+    {
+        var archivo = event.target.files[0];
+        var preview = document.getElementById("imgUsuario");
+
+        if (archivo)
+        {
+            var extension = archivo.name.split('.').pop().toLowerCase();
+            var extensionesPermitidas = ["jpg", "jpeg", "png", "gif", "bmp"];
+        
+        if (extensionesPermitidas.includes(extension))
+        {
+            preview.src = URL.createObjectURL(archivo);
+            preview.onload = function ()
+            {
+                URL.revokeObjectURL(preview.src);
+            };
+        }
+        else
+            {
+            alert("Archivo no Valido. Solo se permiten imagenes (JPG, JPEG, PNG, GIF, BMP)")
+            event.target.value = "";
+            var imagenCargada = preview.getAttribute("src")
+            preview.src = imagenCargada;
+            }
+        }
+    }
+</script>
+          
+     

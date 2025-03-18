@@ -19,5 +19,6 @@ namespace ML
         public Exception Ex { get; set; }
 
         public bool Correct { get; set; }
+
     }
 }

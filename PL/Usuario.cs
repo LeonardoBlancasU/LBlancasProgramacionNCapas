@@ -16,22 +16,54 @@ namespace PL
             Console.WriteLine("Ingrese el nombre del Usuario: ");
             usuario.Nombre = Console.ReadLine();
 
-            Console.WriteLine("Ingrese la edad del Usuario");
+            Console.WriteLine("Ingrese el apellido paterno del Usuario");
 
-            usuario.Edad = Convert.ToByte(Console.ReadLine());
+            usuario.ApellidoPaterno = Console.ReadLine();
 
-            Console.WriteLine("Ingrese la direccion del Usuario");
+            Console.WriteLine("Ingrese el apellido materno del Usuario");
 
-            usuario.Direccion = Console.ReadLine();
+            usuario.ApellidoMaterno = Console.ReadLine();
+
+            Console.WriteLine("Ingrese el apellido materno del Usuario");
+
+            usuario.UserName = Console.ReadLine();
+
+            Console.WriteLine("Ingrese el email del Usuario");
+
+            usuario.Email = Console.ReadLine();
+
+            Console.WriteLine("Ingrese la password del Usuario");
+
+            usuario.Password = Console.ReadLine();
+
+            Console.WriteLine("Ingrese la Fecha de Nacimiento del Usuario dd-mm-yyyy");
+
+            usuario.FechaNacimiento = Console.ReadLine();   
+
+            Console.WriteLine("Ingrese el Sexo del Usuario (F o M)");
+
+            usuario.Sexo = Console.ReadLine();
+
+            Console.WriteLine("Ingrese el telefono del Usuario");
+
+            usuario.Telefono = Console.ReadLine();
+
+            Console.WriteLine("Ingrese el celular del Usuario");
+
+            usuario.Celular = Console.ReadLine();
+
+            Console.WriteLine("Ingrese Estatus del Usuario");
+
+            usuario.Estatus = Convert.ToBoolean(Console.ReadLine());
+
+            //Console.WriteLine("Ingrese la imagen del Usuario");
+
+            //usuario.Imagen = Convert.ToByte[](Console.ReadLine());
 
             Console.WriteLine("Ingrese el curp del Usuario");
 
-            usuario.Curp = Console.ReadLine();
-
-            Console.WriteLine("Ingrese el costo de registrar al Usuario");
-
-            usuario.Costo = Convert.ToDecimal(Console.ReadLine());
-
+            usuario.CURP = Console.ReadLine();
+            
             Console.WriteLine("Ingresa el ID Rol del Usuario");
             usuario.Rol =new ML.Rol();
             usuario.Rol.IdRol = Convert.ToByte(Console.ReadLine()) ;
@@ -60,23 +92,55 @@ namespace PL
             Console.WriteLine("Ingrese el nombre del Usuario: ");
             usuario.Nombre = Console.ReadLine();
 
-            Console.WriteLine("Ingrese la edad del Usuario");
+            Console.WriteLine("Ingrese el apellido paterno del Usuario");
 
-            usuario.Edad = Convert.ToByte(Console.ReadLine());
+            usuario.ApellidoPaterno = Console.ReadLine();
 
-            Console.WriteLine("Ingrese la direccion del Usuario");
+            Console.WriteLine("Ingrese el apellido materno del Usuario");
 
-            usuario.Direccion = Console.ReadLine();
+            usuario.ApellidoMaterno = Console.ReadLine();
+
+            Console.WriteLine("Ingrese el apellido materno del Usuario");
+
+            usuario.UserName = Console.ReadLine();
+
+            Console.WriteLine("Ingrese el email del Usuario");
+
+            usuario.Email = Console.ReadLine();
+
+            Console.WriteLine("Ingrese la password del Usuario");
+
+            usuario.Password = Console.ReadLine();
+
+            Console.WriteLine("Ingrese la Fecha de Nacimiento del Usuario");
+
+            usuario.FechaNacimiento = Console.ReadLine();
+
+            Console.WriteLine("Ingrese el Sexo del Usuario (F o M)");
+
+            usuario.Sexo = Console.ReadLine();
+
+            Console.WriteLine("Ingrese el telefono del Usuario");
+
+            usuario.Telefono = Console.ReadLine();
+
+            Console.WriteLine("Ingrese el celular del Usuario");
+
+            usuario.Celular = Console.ReadLine();
+
+            Console.WriteLine("Ingrese Estatus del Usuario");
+
+            usuario.Estatus = Convert.ToBoolean(Console.ReadLine());
+
+            //Console.WriteLine("Ingrese la imagen del Usuario");
+
+            //usuario.Imagen = Convert.ToByte[](Console.ReadLine());
 
             Console.WriteLine("Ingrese el curp del Usuario");
 
-            usuario.Curp = Console.ReadLine();
+            usuario.CURP = Console.ReadLine();
 
-            Console.WriteLine("Ingrese el costo de registrar al Usuario");
-
-            usuario.Costo = Convert.ToDecimal(Console.ReadLine());
-
-            Console.WriteLine("Ingresa el ID Rol del Usuario a Actualizar");
+            Console.WriteLine("Ingresa el ID Rol del Usuario");
             usuario.Rol = new ML.Rol();
             usuario.Rol.IdRol = Convert.ToByte(Console.ReadLine());
 
@@ -122,10 +186,18 @@ namespace PL
                 {
                     Console.WriteLine("ID: " + usuario.IdUsuario);
                     Console.WriteLine("Nombre:" + usuario.Nombre);
-                    Console.WriteLine("Edad: " + usuario.Edad);
-                    Console.WriteLine("Dirección: " + usuario.Direccion);
-                    Console.WriteLine("CURP: " + usuario.Curp);
-                    Console.WriteLine("Costo: " + usuario.Costo);
+                    Console.WriteLine("Nombre de Usuario:" + usuario.UserName);
+                    Console.WriteLine("Apellido Paterno: " + usuario.ApellidoPaterno);
+                    Console.WriteLine("Apellido Materno: " + usuario.ApellidoMaterno);
+                    Console.WriteLine("Email:" + usuario.Email);
+                    Console.WriteLine("Password:" + usuario.Password);
+                    Console.WriteLine("Fecha de Nacimiento:" + usuario.FechaNacimiento);
+                    Console.WriteLine("Sexo:" + usuario.Sexo);
+                    Console.WriteLine("Telefono:" + usuario.Telefono);
+                    Console.WriteLine("Celular:" + usuario.Celular);
+                    Console.WriteLine("Estatus:" + usuario.Estatus);
+                    Console.WriteLine("CURP: " + usuario.CURP);
+                    Console.WriteLine("Imagen:" + usuario.Imagen);
                     Console.WriteLine("ID ROL:" + usuario.Rol.IdRol + "\n");
                 }
             }
@@ -148,12 +220,20 @@ namespace PL
             {
                 ML.Usuario usuario = (ML.Usuario)result.Object;
                 Console.WriteLine("Aqui tienes la Información del Usuario:\n");
-                Console.WriteLine($"ID: {usuario.IdUsuario}");
-                Console.WriteLine($"Nombre: {usuario.Nombre}");
-                Console.WriteLine($"Edad: {usuario.Edad}");
-                Console.WriteLine($"Dirección: {usuario.Direccion}");
-                Console.WriteLine($"CURP: {usuario.Curp}");
-                Console.WriteLine($"Costo: {usuario.Costo}");
+                Console.WriteLine("ID: " + usuario.IdUsuario);
+                Console.WriteLine("Nombre:" + usuario.Nombre);
+                Console.WriteLine("Nombre de Usuario:" + usuario.UserName);
+                Console.WriteLine("Apellido Paterno: " + usuario.ApellidoPaterno);
+                Console.WriteLine("Apellido Materno: " + usuario.ApellidoMaterno);
+                Console.WriteLine("Email:" + usuario.Email);
+                Console.WriteLine("Password:" + usuario.Password);
+                Console.WriteLine("Fecha de Nacimiento:" + usuario.FechaNacimiento);
+                Console.WriteLine("Sexo:" + usuario.Sexo);
+                Console.WriteLine("Telefono:" + usuario.Telefono);
+                Console.WriteLine("Celular:" + usuario.Celular);
+                Console.WriteLine("Estatus:" + usuario.Estatus);
+                Console.WriteLine("CURP: " + usuario.CURP);
+                Console.WriteLine("Imagen:" + usuario.Imagen);
                 Console.WriteLine("ID ROL:" + usuario.Rol.IdRol + "\n");
             }
             else

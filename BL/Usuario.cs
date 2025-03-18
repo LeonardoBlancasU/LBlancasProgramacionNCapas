@@ -8,6 +8,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using static System.Net.Mime.MediaTypeNames;
 
 
 
@@ -26,10 +27,10 @@ namespace BL
                 {
                     SqlCommand cmd = new SqlCommand("INSERT INTO [dbo].[Usuario]([Nombre],[Edad],[Direccion],[Curp],[Costo])VALUES (@Nombre, @Edad, @Direccion, @Curp, @Costo)", conn);
                     cmd.Parameters.AddWithValue("@Nombre", usuario.Nombre);
-                    cmd.Parameters.AddWithValue("@Edad", usuario.Edad);
-                    cmd.Parameters.AddWithValue("@Direccion", usuario.Direccion);
-                    cmd.Parameters.AddWithValue("@Curp", usuario.Curp);
-                    cmd.Parameters.AddWithValue("@Costo", usuario.Costo);
+                    cmd.Parameters.AddWithValue("@UserName", usuario.UserName);
+                    cmd.Parameters.AddWithValue("@ApellidoPaterno", usuario.ApellidoPaterno);
+                    cmd.Parameters.AddWithValue("@CURP", usuario.CURP);
+                    cmd.Parameters.AddWithValue("@IdRol", usuario.Rol.IdRol);
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
 
@@ -47,6 +48,7 @@ namespace BL
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
 
             return result;
@@ -62,14 +64,24 @@ namespace BL
             {
                 using (SqlConnection conn = new SqlConnection(DL.Conexion.Get()))
                 {
-                    SqlCommand cmd = new SqlCommand("UPDATE [dbo].[Usuario] SET Nombre = @Nombre, Edad = @Edad, Curp = @Curp, Direccion = @Direccion, Costo = @Costo WHERE IdUsuario = @IdUsuario", conn);
+                    SqlCommand cmd = new SqlCommand("UPDATE [dbo].[Usuario] SET Nombre = @Nombre, UserName = @UserName, ApellidoPaterno = @ApellidoPaterno, \r\nCURP = @CURP, ApellidoMaterno = @ApellidoMaterno, IdRol = @IdRol,\r\nEmail = @Email, Password = @Password, FechaNacimiento = @FechaNacimiento, Sexo = @Sexo, Telefono = @Telefono, Celular = @Celular, Estatus = @Estatus, Imagen = @Imagen", conn);
                     cmd.Parameters.AddWithValue("@IdUsuario", usuario.IdUsuario);
                     cmd.Parameters.AddWithValue("@Nombre", usuario.Nombre);
-                    cmd.Parameters.AddWithValue("@Edad", usuario.Edad);
-                    cmd.Parameters.AddWithValue("@Direccion", usuario.Direccion);
-                    cmd.Parameters.AddWithValue("@Curp", usuario.Curp);
-                    cmd.Parameters.AddWithValue("@Costo", usuario.Costo);
+                    cmd.Parameters.AddWithValue("@UserName", usuario.UserName);
+                    cmd.Parameters.AddWithValue("@ApellidoPaterno", usuario.ApellidoPaterno);
+                    cmd.Parameters.AddWithValue("@ApellidoMaterno", usuario.ApellidoMaterno);
+                    cmd.Parameters.AddWithValue("@Email", usuario.Email);
+                    cmd.Parameters.AddWithValue("@Password", usuario.Password);
+                    cmd.Parameters.AddWithValue("@FechaNaciemiento", usuario.FechaNacimiento);
+                    cmd.Parameters.AddWithValue("@Sexo", usuario.Sexo);
+                    cmd.Parameters.AddWithValue("@Telefono", usuario.Telefono);
+                    cmd.Parameters.AddWithValue("@Celular", usuario.Celular);
+                    cmd.Parameters.AddWithValue("@Estatus", usuario.Estatus);
+                    cmd.Parameters.AddWithValue("@CURP", usuario.CURP);
+                    cmd.Parameters.AddWithValue("@Imagen", usuario.Imagen);
+                    cmd.Parameters.AddWithValue("@IdRol", usuario.Rol.IdRol);
                     conn.Open();
+                
                     int rowsAffected = cmd.ExecuteNonQuery();
 
                     if (rowsAffected > 0)
@@ -86,6 +98,7 @@ namespace BL
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
 
             return result;
@@ -119,6 +132,7 @@ namespace BL
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
 
             return result;
@@ -138,10 +152,18 @@ namespace BL
                     SqlCommand cmd = new SqlCommand("UsuarioAdd", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Nombre", usuario.Nombre);
-                    cmd.Parameters.AddWithValue("@Edad", usuario.Edad);
-                    cmd.Parameters.AddWithValue("@Direccion", usuario.Direccion);
-                    cmd.Parameters.AddWithValue("@Curp", usuario.Curp);
-                    cmd.Parameters.AddWithValue("@Costo", usuario.Costo);
+                    cmd.Parameters.AddWithValue("@UserName", usuario.UserName);
+                    cmd.Parameters.AddWithValue("@ApellidoPaterno", usuario.ApellidoPaterno);
+                    cmd.Parameters.AddWithValue("@ApellidoMaterno", usuario.ApellidoMaterno);
+                    cmd.Parameters.AddWithValue("@Email", usuario.Email);
+                    cmd.Parameters.AddWithValue("@Password", usuario.Password);
+                    cmd.Parameters.AddWithValue("@FechaNacimiento", usuario.FechaNacimiento);
+                    cmd.Parameters.AddWithValue("@Sexo", usuario.Sexo);
+                    cmd.Parameters.AddWithValue("@Telefono", usuario.Telefono);
+                    cmd.Parameters.AddWithValue("@Celular", usuario.Celular);
+                    cmd.Parameters.AddWithValue("@Estatus", usuario.Estatus);
+                    cmd.Parameters.AddWithValue("@CURP", usuario.CURP);
+                    cmd.Parameters.AddWithValue("@Imagen", usuario.Imagen);
                     cmd.Parameters.AddWithValue("@IdRol", usuario.Rol.IdRol);
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
@@ -160,6 +182,7 @@ namespace BL
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
 
             return result;
@@ -177,10 +200,18 @@ namespace BL
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@IdUsuario", usuario.IdUsuario);
                     cmd.Parameters.AddWithValue("@Nombre", usuario.Nombre);
-                    cmd.Parameters.AddWithValue("@Edad", usuario.Edad);
-                    cmd.Parameters.AddWithValue("@Direccion", usuario.Direccion);
-                    cmd.Parameters.AddWithValue("@Curp", usuario.Curp);
-                    cmd.Parameters.AddWithValue("@Costo", usuario.Costo);
+                    cmd.Parameters.AddWithValue("@UserName", usuario.UserName);
+                    cmd.Parameters.AddWithValue("@ApellidoPaterno", usuario.ApellidoPaterno);
+                    cmd.Parameters.AddWithValue("@ApellidoMaterno", usuario.ApellidoMaterno);
+                    cmd.Parameters.AddWithValue("@Email", usuario.Email);
+                    cmd.Parameters.AddWithValue("@Password", usuario.Password);
+                    cmd.Parameters.AddWithValue("@FechaNacimiento", usuario.FechaNacimiento);
+                    cmd.Parameters.AddWithValue("@Sexo", usuario.Sexo);
+                    cmd.Parameters.AddWithValue("@Telefono", usuario.Telefono);
+                    cmd.Parameters.AddWithValue("@Celular", usuario.Celular);
+                    cmd.Parameters.AddWithValue("@Estatus", usuario.Estatus);
+                    cmd.Parameters.AddWithValue("@CURP", usuario.CURP);
+                    cmd.Parameters.AddWithValue("@Imagen", usuario.Imagen);
                     cmd.Parameters.AddWithValue("@IdRol", usuario.Rol.IdRol);
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
@@ -199,6 +230,8 @@ namespace BL
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+
             }
 
             return result;
@@ -224,8 +257,9 @@ namespace BL
                         result.Correct = true;
                     }
                     else
-
+                    {
                         result.Correct = false;
+                    }
                 }
             }
 
@@ -233,6 +267,7 @@ namespace BL
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
 
             return result;
@@ -264,11 +299,23 @@ namespace BL
                                 usuario.Rol = new ML.Rol();
                                 usuario.IdUsuario = reader.GetInt32(0);
                                 usuario.Nombre = reader.GetString(1);
-                                usuario.Edad = reader.GetByte(2);
-                                usuario.Direccion = reader.GetString(3);
-                                usuario.Curp = reader.GetString(4);
-                                usuario.Costo = reader.GetDecimal(5);
-                                usuario.Rol.IdRol = reader.GetByte(6);
+                                usuario.CURP = reader.GetString(2);
+                                usuario.Rol.IdRol = reader.GetByte(3);
+                                usuario.UserName = reader.GetString(4);
+                                usuario.ApellidoPaterno = reader.GetString(5);
+                                usuario.ApellidoMaterno = reader.GetString(6);
+                                usuario.Email = reader.GetString(7);
+                                usuario.Password = reader.GetString(8);
+                                usuario.FechaNacimiento = reader.GetDateTime(9).ToString("yyyy-MM-dd");
+                                usuario.Sexo = reader.GetString(10);
+                                usuario.Telefono = reader.GetString(11);
+                                usuario.Celular = reader.GetString(12);
+                                usuario.Estatus = reader.GetBoolean(13);
+                                if (reader["Imagen"] != DBNull.Value)
+                                {
+                                    usuario.Imagen = (byte[])reader["Imagen"];
+                                }
+                                usuario.Rol.Nombre = reader.GetString(15);
 
                                 result.Objects.Add(usuario);
                             }
@@ -286,6 +333,7 @@ namespace BL
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
 
             return result;
@@ -311,11 +359,22 @@ namespace BL
                             usuario.Rol = new ML.Rol();
                             usuario.IdUsuario = reader.GetInt32(0);
                             usuario.Nombre = reader.GetString(1);
-                            usuario.Edad = reader.GetByte(2);
-                            usuario.Direccion = reader.GetString(3);
-                            usuario.Curp = reader.GetString(4);
-                            usuario.Costo = reader.GetDecimal(5);
-                            usuario.Rol.IdRol = reader.GetByte(6);
+                            usuario.CURP = reader.GetString(2);
+                            usuario.Rol.IdRol = reader.GetByte(3);
+                            usuario.UserName = reader.GetString(4);
+                            usuario.ApellidoPaterno = reader.GetString(5);
+                            usuario.ApellidoMaterno = reader.GetString(6);
+                            usuario.Email = reader.GetString(7);
+                            usuario.Password = reader.GetString(8);
+                            usuario.FechaNacimiento = reader.GetString(9);
+                            usuario.Sexo = reader.GetString(10);
+                            usuario.Telefono = reader.GetString(11);
+                            usuario.Celular = reader.GetString(12);
+                            usuario.Estatus = reader.GetBoolean(13);
+                            if (reader["Imagen"] != DBNull.Value)
+                            {
+                                usuario.Imagen = (byte[])reader["Imagen"];
+                            }
                             result.Object = usuario;
                             result.Correct = true;
                         }
@@ -331,6 +390,7 @@ namespace BL
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
 
             return result;
@@ -359,11 +419,20 @@ namespace BL
                             usuario.Rol = new ML.Rol();
                             usuario.IdUsuario = Convert.ToInt32(row[0].ToString());
                             usuario.Nombre = (row[1].ToString());
-                            usuario.Edad = Convert.ToByte(row[2].ToString());
-                            usuario.Direccion = (row[3].ToString());
-                            usuario.Curp = (row[4].ToString());
-                            usuario.Costo = Convert.ToDecimal(row[5].ToString());
-                            usuario.Rol.IdRol = Convert.ToByte(row[6].ToString());
+                            usuario.UserName = (row[2].ToString());
+                            usuario.ApellidoPaterno = (row[3].ToString()); 
+                            usuario.ApellidoMaterno = (row[4].ToString()); 
+                            usuario.Email = (row[5].ToString()); 
+                            usuario.Password = (row[6].ToString()); 
+                            usuario.FechaNacimiento = (row[7].ToString()); 
+                            usuario.Sexo = (row[8].ToString()); 
+                            usuario.Telefono = (row[9].ToString()); 
+                            usuario.Celular = (row[10].ToString()); 
+                            usuario.Estatus = Convert.ToBoolean(row[11].ToString());
+                            usuario.CURP = (row[12].ToString()); ;
+                            usuario.Imagen = row["Imagen"] != DBNull.Value ? (byte[])row["Imagen"] : null;
+                            usuario.Rol.IdRol = Convert.ToByte(row[14].ToString());
+                            usuario.Rol.Nombre = row[15].ToString();
                             result.Objects.Add(usuario);
                         }
                             result.Correct = true;
@@ -380,6 +449,7 @@ namespace BL
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
 
             return result;
@@ -405,14 +475,21 @@ namespace BL
                             
                             ML.Usuario usuario = new ML.Usuario();
                             usuario.Rol = new ML.Rol();
-                            usuario.IdUsuario = Convert.ToInt32(row[0].ToString());
-                            usuario.Nombre = Convert.ToString(row[1].ToString());
-                            usuario.Edad = Convert.ToByte(row[2].ToString());
-                            usuario.Direccion = Convert.ToString(row[3].ToString());
-                            usuario.Curp = Convert.ToString(row[4].ToString());
-                            usuario.Costo = Convert.ToDecimal(row[5].ToString());
-                            usuario.Rol.IdRol = Convert.ToByte(row[6].ToString());
-                            result.Object = usuario;
+                            usuario.IdUsuario = Convert.ToInt32(row["IdUsuario"].ToString());
+                            usuario.Nombre = (row["Nombre"].ToString());
+                            usuario.UserName = (row["UserName"].ToString());
+                            usuario.ApellidoPaterno = (row["ApellidoPaterno"].ToString()); 
+                            usuario.ApellidoMaterno = (row["ApellidoMaterno"].ToString()); 
+                            usuario.Email = (row["Email"].ToString()); 
+                            usuario.Password = (row["Password"].ToString()); 
+                            usuario.FechaNacimiento = (row["FechaNacimiento"].ToString()); 
+                            usuario.Sexo = (row["Sexo"].ToString()); 
+                            usuario.Telefono = (row["Telefono"].ToString()); 
+                            usuario.Celular = (row["Celular"].ToString()); 
+                            usuario.Estatus = Convert.ToBoolean(row["Estatus"]);
+                            usuario.CURP = (row["CURP"].ToString());
+                            usuario.Imagen = row["Imagen"] != DBNull.Value ? (byte[])row["Imagen"] : null;
+                            usuario.Rol.IdRol = Convert.ToByte(row["IdRol"].ToString());
                             result.Correct = true;
 
                         
@@ -429,6 +506,7 @@ namespace BL
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
 
             return result;
