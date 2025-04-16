@@ -26,33 +26,36 @@ namespace PL_MVC.Controllers
         {
             ML.Usuario usuario = new ML.Usuario();
             usuario.Rol = new ML.Rol();
-            ML.Result resultRol = BL.Rol.GetAll();
-            usuario.Rol.Roles = resultRol.Objects;
+            usuario.Direccion = new ML.Direccion();
+            usuario.Direccion.Colonia = new ML.Colonia();
+            usuario.Direccion.Colonia.Municipio = new ML.Municipio();
+            usuario.Direccion.Colonia.Municipio.Estado = new ML.Estado();
+            if (IdUsuario != null && IdUsuario > 0)
+            {
 
-            if (IdUsuario == 0)
-            {
-                BL.Usuario.AddSP(usuario);
-                TempData["Agregado"] = "Usuario Agregado Correctamente.";
-            }
-            else 
-                if (IdUsuario != null && IdUsuario > 0)
-            {
                 ML.Result result = BL.Usuario.GetById(IdUsuario.Value);
-                if (result.Correct)
+
+                if (result.Correct == true)
                 {
                     usuario = (ML.Usuario)result.Object;
-                    usuario.Rol.Roles = resultRol.Objects;
-                    
                 }
+
             }
+            ML.Result resultRoles = BL.Rol.GetAll();
+            usuario.Rol.Roles = resultRoles.Correct ? resultRoles.Objects : new List<object>();
+            ML.Result resultEstados = BL.Estado.GetAll();
+            usuario.Direccion.Colonia.Municipio.Estado.Estados = resultEstados.Correct ? resultEstados.Objects : new List<object>();
+            ML.Result resultMunicipios = BL.Municipio.GetByIdEstado(usuario.Direccion.Colonia.Municipio.Estado.IdEstado);
+            usuario.Direccion.Colonia.Municipio.Municipios = resultMunicipios.Correct ? resultMunicipios.Objects : new List<object>();
+            ML.Result resultColonias = BL.Colonia.GetByIdMunicipio(usuario.Direccion.Colonia.Municipio.IdMunicipio);
+            usuario.Direccion.Colonia.Colonias = resultColonias.Correct ? resultColonias.Objects : new List<object>();
 
             return View(usuario);
         }
 
         [HttpPost]
-        public ActionResult Formulario(ML.Usuario usuario, HttpPostedFileBase ImagenFile) {
-            
-
+        public ActionResult Formulario(ML.Usuario usuario, HttpPostedFileBase ImagenFile)
+        {
             ML.Result result = new ML.Result();
 
             if (ImagenFile != null && ImagenFile.ContentLength > 0)
@@ -70,47 +73,111 @@ namespace PL_MVC.Controllers
                 usuario.Imagen = defaultImageData;
             }
 
-            if (usuario.IdUsuario == 0)
+            if (usuario.IdUsuario == 0) // Nuevo usuario
             {
-               
-                result = BL.Usuario.AddSP(usuario);
-                TempData["Agregado"] = "Usuario Agregado Correctamente.";
+                ML.Result resultDireccion = BL.Direccion.AddSP(usuario);
+                if (resultDireccion.Correct)
+                {
+                    usuario.Direccion.IdDireccion = (int)resultDireccion.Object;
+
+                    result = BL.Usuario.AddSP(usuario);
+                    if (result.Correct)
+                    {
+                        TempData["Agregado"] = "Usuario agregado correctamente.";
+                        return RedirectToAction("GetAll");
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Error al agregar el usuario: " + result.ErrorMessage;
+                    }
+                }
+                else
+                {
+                    TempData["Error"] = "Error al agregar la dirección: " + resultDireccion.ErrorMessage;
+                }
             }
-            else
+            else // Si es una actualización de usuario
             {
+                if (usuario.Direccion.IdDireccion == 0) // Si no tiene dirección, agregar una nueva
+                {
+                    ML.Result resultDireccion = BL.Direccion.AddSP(usuario);
+                    if (resultDireccion.Correct)
+                    {
+                        usuario.Direccion.IdDireccion = (int)resultDireccion.Object;
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Error al agregar la dirección: " + resultDireccion.ErrorMessage;
+                        return View(usuario);
+                    }
+                }
+                else // Si ya tiene dirección, actualizarla
+                {
+                    ML.Result resultDireccion = BL.Direccion.UpdateSP(usuario);
+                    if (!resultDireccion.Correct)
+                    {
+                        TempData["Error"] = "Error al actualizar la dirección: " + resultDireccion.ErrorMessage;
+                        return View(usuario);
+                    }
+                }
 
-                BL.Usuario.UpdateSP(usuario);
-                TempData["Actualizado"] = "Usuario Actualizado Correctamente.";
-
+                // Actualizar el usuario
+                result = BL.Usuario.UpdateSP(usuario);
+                if (result.Correct)
+                {
+                    TempData["Agregado"] = "Usuario actualizado correctamente.";
+                    return RedirectToAction("GetAll");
+                }
+                else
+                {
+                    TempData["Error"] = "Error al actualizar el usuario: " + result.ErrorMessage;
+                }
             }
 
-            if (result.Correct)
-            {
-                return RedirectToAction("GetAll");
-            }
             return View(usuario);
         }
 
         public ActionResult Delete(int IdUsuario)
         {
-            ML.Result result = BL.Usuario.DeleteSP(IdUsuario);
-            if (result.Correct)
+            ML.Result resultUsuario = BL.Usuario.DeleteSP(IdUsuario);
+            if (resultUsuario.Correct)
             {
-                TempData["Success"] = "Usuario Eliminado Correctamente.";
+                int IdDireccion = (int)resultUsuario.Object;
+                if (IdDireccion > 0)
+                {
+                    ML.Result resultDireccion = BL.Direccion.DeleteSP(IdDireccion);
+                    if (resultDireccion.Correct)
+                    {
+                        TempData["Success"] = "Usuario Eliminado Correctamente.";
+                    }
+                }
+
+                else
+                {
+                    TempData["Error"] = " Error al eliminar usuario" + resultUsuario.ErrorMessage;
+                }
             }
             else
             {
-                TempData["Error"] = " Error al eliminar usuario" + result.ErrorMessage;
+                TempData["Error"] = " Error al eliminar usuario" + resultUsuario.ErrorMessage;
             }
             return RedirectToAction("GetAll");
         }
 
-        //var _img = document.getElementById('id1');
-        //var newImg = new Image;
-        //newImg.onload = function()
-        //{
-        //    _img.src = this.src;
-        //}
-        //newImg.src = 'http://whatever';
+        public JsonResult MunicipioGetByIdEstado(int IdEstado)
+        {
+            ML.Result result = BL.Municipio.GetByIdEstado(IdEstado);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ColoniaGetByIdMunicipio(int IdMunicipio)
+        {
+            ML.Result result = BL.Colonia.GetByIdMunicipio(IdMunicipio);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }
