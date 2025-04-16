@@ -1,0 +1,73 @@
+﻿@model ML.Usuario
+@{
+    ViewBag.Title = "DropDownList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.Estado.IdEstado, new SelectList(Model.Direccion.Colonia.Municipio.Estado.Estados, "IdEstado", "Nombre"), "Selecciona un Estado", new { @id = "ddlEstado", @class = "form-control", @onchange = "FillMunicipios()" })
+        </div>
+        <div class="col-3">
+            @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.IdMunicipio, new SelectList(string.Empty, "IdMunicipio", "Nombre"), "Selecciona un Municipio", htmlAttributes: new { id = "ddlMunicipio", @class = "form-control", @onchange ="FillColonias()"})
+        </div>
+        <div class="col-3">
+            @Html.DropDownListFor(model => model.Direccion.Colonia.IdColonia, new SelectList(string.Empty, "IdColonia", "Nombre"), "Selecciona una Colonia", htmlAttributes: new { id = "ddlColonia", @class = "form-control" })
+        </div>
+    </div>
+
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.js">
+
+</script>
+<script type="text/javascript">
+    function FillMunicipios() {
+        let ddlIdEstado = $("#ddlEstado").val();
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("MunicipioGetByIdEstado")',
+            dataType: 'json',
+
+            contentType: 'application/json',
+            data: { IdEstado: ddlIdEstado },
+            success: function (result) {
+                if (result.Correct) {
+                    $("#ddlMunicipio").empty();
+                    $("#ddlMunicipio").append('<option value="0">' + 'Seleccione un Municipio' + '</option>');
+                    $.each(result.Objects, function (i, municipios) {
+                        $("#ddlMunicipio").append('<option value="' + municipios.IdMunicipio + '">' + municipios.Nombre + '</option>');
+                    });
+                }
+            },
+            error: function (ex) {
+                alert('Failed.' + ex);
+            }
+        });
+    }
+
+        function FillColonias() {
+        let ddlIdMunicipio = $("#ddlMunicipio").val();
+          $.ajax({
+            type: 'GET',
+            url: '@Url.Action("ColoniaGetByIdMunicipio")',
+            dataType: 'json',
+
+            contentType: 'application/json',
+            data: { IdMunicipio: ddlIdMunicipio },
+            success: function (result) {
+                if (result.Correct) {
+                    $("#ddlColonia").empty();
+                    $("#ddlColonia").append('<option value="0">' + 'Seleccione una Colonia' + '</option>');
+                    $.each(result.Objects, function (i, colonias) {
+                    $("#ddlColonia").append('<option value="' + colonias.IdColonia + '">' + colonias.Nombre + '</option>');
+                    });
+                }
+            },
+            error: function (ex) {
+            alert('Failed.' + ex);
+            }
+          });
+        }
+</script>
