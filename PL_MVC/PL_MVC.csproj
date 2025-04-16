@@ -9,7 +9,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{425C67C0-B6B9-4B83-8BB1-6F5015003B60}</ProjectGuid>
+    <ProjectGuid>{00CDA616-E463-4BAB-99CB-7E782C066E3E}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -19,7 +19,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44311</IISExpressSSLPort>
+    <IISExpressSSLPort>44340</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -202,6 +202,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Img\Default.png" />
+    <Content Include="Img\Default1 %282%29.png" />
+    <Content Include="Img\Default1.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -255,7 +257,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Usuario\GetAll.cshtml" />
     <Content Include="Views\Usuario\Formulario.cshtml" />
-    <Content Include="Views\Shared\Mensaje.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -289,11 +290,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj">
-      <Project>{15d45c82-cae0-4e3f-822d-47f5bded93ac}</Project>
+      <Project>{6448d713-d7ca-4fcf-b1dc-8f127713a000}</Project>
       <Name>BL</Name>
     </ProjectReference>
     <ProjectReference Include="..\ML\ML.csproj">
-      <Project>{1b77f972-c25d-4885-87f5-899aeb2cb344}</Project>
+      <Project>{620c5c33-77f1-42bf-bdd6-a11d15fc8c26}</Project>
       <Name>ML</Name>
     </ProjectReference>
   </ItemGroup>
@@ -313,9 +314,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>51329</DevelopmentServerPort>
+          <DevelopmentServerPort>58708</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44311/</IISUrl>
+          <IISUrl>https://localhost:44340/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

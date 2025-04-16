@@ -1,11 +1,11 @@
 ﻿@model ML.Usuario
-@{ 
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="container">
     <div class="row">
         <div class="col-12 col-md-6 col-lg-4 mb-3">
-             @Html.ActionLink("+", "Formulario", "Usuario", new { @class = "btn btn-success" })
+            @Html.ActionLink("+", "Formulario", "Usuario", new { @class = "btn btn-success" })
         </div>
     </div>
 
@@ -17,11 +17,10 @@
                     <thead>
                         <tr>
                             <td> Editar </td>
-                            <td> IdUsuario </td>
-                            <td> Nombre </td>
+
                             <td> Nombre de Usuario </td>
-                            <td> Apellido Paterno </td>
-                            <td> Appellido Materno </td>
+                            <td> Nombre </td>
+                            <td> Direccion </td>
                             <td> Email </td>
                             <td> Password </td>
                             <td> Fecha de Nacimiento </td>
@@ -40,11 +39,26 @@
                         {
                             <tr>
                                 <td>@Html.ActionLink("Editar", "Formulario", "Usuario", new { IdUsuario = usuario.IdUsuario }, new { @class = "btn btn-warning" })</td>
-                                <td>@usuario.IdUsuario</td>
-                                <td>@usuario.Nombre</td>
+
                                 <td>@usuario.UserName</td>
-                                <td>@usuario.ApellidoPaterno</td>
-                                <td>@usuario.ApellidoMaterno</td>
+                                <td>@usuario.Nombre @usuario.ApellidoPaterno @usuario.ApellidoMaterno</td>
+                                <td>
+                                    @if (usuario.Direccion.Calle != "" || usuario.Direccion.NumeroInterior != ""
+                                   || usuario.Direccion.Colonia.Nombre != "" || usuario.Direccion.Colonia.CodigoPostal != ""
+                                   || usuario.Direccion.Colonia.Municipio.Nombre != "" || usuario.Direccion.Colonia.Municipio.Estado.Nombre != "")
+                                    {
+                                        @usuario.Direccion.Calle <i>,</i>
+                                        @usuario.Direccion.NumeroInterior <i>,</i>
+                                        @usuario.Direccion.NumeroExterior <i>,</i>
+                                        @usuario.Direccion.Colonia.Nombre <i>,</i>
+                                        @usuario.Direccion.Colonia.CodigoPostal <i>,</i>
+                                        @usuario.Direccion.Colonia.Municipio.Nombre <i>,</i>
+                                        @usuario.Direccion.Colonia.Municipio.Estado.Nombre <i>.</i>}
+                                    else
+                                    {
+                                        <i>No tiene Direccion Completa</i>
+                                    }
+                                </td>
                                 <td>@usuario.Email</td>
                                 <td>@usuario.Password</td>
                                 <td>@usuario.FechaNacimiento</td>
@@ -107,4 +121,3 @@
     </div>
 </div>
 <h2>GetAll</h2>
-
