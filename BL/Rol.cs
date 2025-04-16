@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BL
 {
@@ -28,7 +31,7 @@ namespace BL
                             while (reader.Read())
                             {
                                 ML.Rol rol = new ML.Rol();
-                                
+
                                 rol.IdRol = reader.GetByte(0);
                                 rol.Nombre = reader.GetString(1);
                                 result.Objects.Add(rol);
@@ -56,4 +59,3 @@ namespace BL
         }
     }
 }
-    

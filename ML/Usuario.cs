@@ -33,11 +33,7 @@ namespace ML
 
         public string ImagenBase64 { get; set; }
 
-        public Usuario()
-        {
-            Usuarios = new List<object>();
-            Rol = new ML.Rol();
-        }
-
+        public ML.Direccion Direccion { get; set; }
     }
 }
+

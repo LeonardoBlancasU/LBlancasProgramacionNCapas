@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace ML
 {
-    public class Rol
+    public class Municipio
     {
-        public byte IdRol { get; set; }
+        public int IdMunicipio { get; set; }
         public string Nombre { get; set; }
-        public List<object> Roles { get; set; }
+
+        public ML.Estado Estado { get; set; }
+
+        public List<object> Municipios { get; set; }
     }
 }

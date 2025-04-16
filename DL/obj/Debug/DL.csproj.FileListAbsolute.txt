@@ -1,0 +1,6 @@
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\DL\bin\Debug\DL.dll
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\DL\bin\Debug\DL.pdb
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\DL\obj\Debug\DL.csproj.AssemblyReference.cache
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\DL\obj\Debug\DL.csproj.CoreCompileInputs.cache
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\DL\obj\Debug\DL.dll
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\DL\obj\Debug\DL.pdb

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{15D45C82-CAE0-4E3F-822D-47F5BDED93AC}</ProjectGuid>
+    <ProjectGuid>{6448D713-D7CA-4FCF-B1DC-8F127713A000}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BL</RootNamespace>
@@ -32,7 +32,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,17 +41,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Municipio.cs" />
     <Compile Include="Rol.cs" />
     <Compile Include="Usuario.cs" />
+    <Compile Include="Estado.cs" />
+    <Compile Include="Direccion.cs" />
+    <Compile Include="Colonia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DL\DL.csproj">
-      <Project>{f22721f9-7813-459d-b098-f1b8ea892d43}</Project>
+      <Project>{fa7eb334-4181-4cda-8659-b77bc884e8e4}</Project>
       <Name>DL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DL_EF\DL_EF.csproj">
+      <Project>{989eac0b-eb7d-45e2-b349-97a7efc3ab3e}</Project>
+      <Name>DL_EF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ML\ML.csproj">
-      <Project>{1b77f972-c25d-4885-87f5-899aeb2cb344}</Project>
+      <Project>{620c5c33-77f1-42bf-bdd6-a11d15fc8c26}</Project>
       <Name>ML</Name>
     </ProjectReference>
   </ItemGroup>

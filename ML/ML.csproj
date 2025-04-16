@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1B77F972-C25D-4885-87F5-899AEB2CB344}</ProjectGuid>
+    <ProjectGuid>{620C5C33-77F1-42BF-BDD6-A11D15FC8C26}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ML</RootNamespace>
@@ -41,8 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Rol.cs" />
+    <Compile Include="Direccion.cs" />
+    <Compile Include="Colonia.cs" />
+    <Compile Include="Estado.cs" />
+    <Compile Include="Municipio.cs" />
     <Compile Include="Result.cs" />
+    <Compile Include="Rol.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,0 +1,13 @@
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\BL\bin\Debug\BL.dll
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\BL\bin\Debug\BL.pdb
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\BL\bin\Debug\DL.dll
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\BL\bin\Debug\DL_EF.dll
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\BL\bin\Debug\ML.dll
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\BL\bin\Debug\DL.pdb
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\BL\bin\Debug\DL_EF.pdb
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\BL\bin\Debug\ML.pdb
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\BL\obj\Debug\BL.csproj.AssemblyReference.cache
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\BL\obj\Debug\BL.csproj.CoreCompileInputs.cache
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\BL\obj\Debug\BL.csproj.CopyComplete
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\BL\obj\Debug\BL.dll
+C:\Users\digis\Documents\Leonardo Blancas Uribe\LBlancasProgramacionNCapas1\BL\obj\Debug\BL.pdb

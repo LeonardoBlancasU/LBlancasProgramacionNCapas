@@ -6,10 +6,6 @@ using System.Threading.Tasks;
 
 namespace ML
 {
-    //primitivo
-    //bool, int, string, decimal
-
-
     public class Result //Complejo
     {
         public string ErrorMessage { get; set; }
@@ -19,6 +15,5 @@ namespace ML
         public Exception Ex { get; set; }
 
         public bool Correct { get; set; }
-
     }
 }
