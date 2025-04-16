@@ -19,6 +19,8 @@ namespace PL_MVC.Controllers
             {
                 usuario.Usuarios = result.Objects;
             }
+            usuario.Direccion = new ML.Direccion();
+            
             return View(usuario);
         }
         [HttpGet]
