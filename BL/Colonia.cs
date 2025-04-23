@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity.Core.Objects;
 
 namespace BL
 {
@@ -49,8 +50,6 @@ namespace BL
                     }
 
                 }
-
-
             }
 
             catch (Exception ex)
@@ -59,6 +58,83 @@ namespace BL
                 result.ErrorMessage = ex.Message;
             }
 
+            return result;
+        }
+        public static ML.Result GetByIdMunicipioEFSP(int IdMunicipio)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using(DL_EF.LBlancasProgramacionNCapasEntities context = new DL_EF.LBlancasProgramacionNCapasEntities())
+                {
+                    var coloniasDB = context.ColoniaGetByIdMunicipio(IdMunicipio).ToList();
+                    if(coloniasDB.Count > 0)
+                    {
+                        result.Objects = new List<object>();
+                        foreach (var coloniaDB in coloniasDB)
+                        {
+                            ML.Colonia colonia = new ML.Colonia();
+
+                            colonia.IdColonia = coloniaDB.IdColonia;
+                            colonia.Nombre = coloniaDB.Nombre;
+                            colonia.CodigoPostal = coloniaDB.CodigoPostal;
+
+                            result.Objects.Add(colonia);
+                        }
+                        result.Correct=true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No se encontraron Colonias.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
+        }
+        public static ML.Result GetByIdMunicipioEFLQ(int IdMunicipio)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.LBlancasProgramacionNCapasEntities context = new DL_EF.LBlancasProgramacionNCapasEntities())
+                {
+                    var query = (from coloniaDB in context.Colonias
+                                 where coloniaDB.IdMunicipio == IdMunicipio
+                                 select new { coloniaDB.IdColonia, coloniaDB.Nombre, coloniaDB.CodigoPostal });
+                    result.Objects = new List<object>();
+                    if(query != null && query.ToList().Count > 0)
+                    {
+                        foreach (var item in query) 
+                        {
+                            ML.Colonia colonia = new ML.Colonia();
+                            colonia.IdColonia = item.IdColonia;
+                            colonia.Nombre = item.Nombre;
+                            colonia.CodigoPostal = item.CodigoPostal;
+                            result.Objects.Add(colonia);
+                        }
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No se encontraron Colonias";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
             return result;
         }
     }

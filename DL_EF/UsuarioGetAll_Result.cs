@@ -28,13 +28,13 @@ namespace DL_EF
         public string Celular { get; set; }
         public bool Estatus { get; set; }
         public byte[] Imagen { get; set; }
-        public string Nombre1 { get; set; }
+        public string NombreRol { get; set; }
         public string Calle { get; set; }
         public string NumeroExterior { get; set; }
         public string NumeroInterior { get; set; }
-        public string Nombre2 { get; set; }
+        public string NombreColonia { get; set; }
         public string CodigoPostal { get; set; }
-        public string Nombre3 { get; set; }
-        public string Nombre4 { get; set; }
+        public string NombreMunicipio { get; set; }
+        public string NombreEstado { get; set; }
     }
 }

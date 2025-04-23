@@ -14,7 +14,7 @@ namespace PL_MVC.Controllers
         public ActionResult GetAll()
         {
             ML.Usuario usuario = new ML.Usuario();
-            ML.Result result = BL.Usuario.GetAll();
+            ML.Result result = BL.Usuario.GetAllEFLQ();
             if (result.Correct)
             {
                 usuario.Usuarios = result.Objects;
@@ -35,7 +35,7 @@ namespace PL_MVC.Controllers
             if (IdUsuario != null && IdUsuario > 0)
             {
 
-                ML.Result result = BL.Usuario.GetById(IdUsuario.Value);
+                ML.Result result = BL.Usuario.GetByIdEFLQ(IdUsuario.Value);
 
                 if (result.Correct == true)
                 {
@@ -43,13 +43,13 @@ namespace PL_MVC.Controllers
                 }
 
             }
-            ML.Result resultRoles = BL.Rol.GetAll();
+            ML.Result resultRoles = BL.Rol.GetAllEFLQ();
             usuario.Rol.Roles = resultRoles.Correct ? resultRoles.Objects : new List<object>();
-            ML.Result resultEstados = BL.Estado.GetAll();
+            ML.Result resultEstados = BL.Estado.GetAllEFLQ();
             usuario.Direccion.Colonia.Municipio.Estado.Estados = resultEstados.Correct ? resultEstados.Objects : new List<object>();
-            ML.Result resultMunicipios = BL.Municipio.GetByIdEstado(usuario.Direccion.Colonia.Municipio.Estado.IdEstado);
+            ML.Result resultMunicipios = BL.Municipio.GetByIdEstadoEFLQ(usuario.Direccion.Colonia.Municipio.Estado.IdEstado);
             usuario.Direccion.Colonia.Municipio.Municipios = resultMunicipios.Correct ? resultMunicipios.Objects : new List<object>();
-            ML.Result resultColonias = BL.Colonia.GetByIdMunicipio(usuario.Direccion.Colonia.Municipio.IdMunicipio);
+            ML.Result resultColonias = BL.Colonia.GetByIdMunicipioEFLQ(usuario.Direccion.Colonia.Municipio.IdMunicipio);
             usuario.Direccion.Colonia.Colonias = resultColonias.Correct ? resultColonias.Objects : new List<object>();
 
             return View(usuario);
@@ -77,12 +77,12 @@ namespace PL_MVC.Controllers
 
             if (usuario.IdUsuario == 0) // Nuevo usuario
             {
-                ML.Result resultDireccion = BL.Direccion.AddSP(usuario);
+                ML.Result resultDireccion = BL.Direccion.AddEFLQ(usuario);
                 if (resultDireccion.Correct)
                 {
                     usuario.Direccion.IdDireccion = (int)resultDireccion.Object;
 
-                    result = BL.Usuario.AddSP(usuario);
+                    result = BL.Usuario.AddEFLQ(usuario);
                     if (result.Correct)
                     {
                         TempData["Agregado"] = "Usuario agregado correctamente.";
@@ -102,7 +102,7 @@ namespace PL_MVC.Controllers
             {
                 if (usuario.Direccion.IdDireccion == 0) // Si no tiene dirección, agregar una nueva
                 {
-                    ML.Result resultDireccion = BL.Direccion.AddSP(usuario);
+                    ML.Result resultDireccion = BL.Direccion.AddEFLQ(usuario);
                     if (resultDireccion.Correct)
                     {
                         usuario.Direccion.IdDireccion = (int)resultDireccion.Object;
@@ -115,7 +115,7 @@ namespace PL_MVC.Controllers
                 }
                 else // Si ya tiene dirección, actualizarla
                 {
-                    ML.Result resultDireccion = BL.Direccion.UpdateSP(usuario);
+                    ML.Result resultDireccion = BL.Direccion.UpdateEFLQ(usuario);
                     if (!resultDireccion.Correct)
                     {
                         TempData["Error"] = "Error al actualizar la dirección: " + resultDireccion.ErrorMessage;
@@ -124,7 +124,7 @@ namespace PL_MVC.Controllers
                 }
 
                 // Actualizar el usuario
-                result = BL.Usuario.UpdateSP(usuario);
+                result = BL.Usuario.UpdateEFLQ(usuario);
                 if (result.Correct)
                 {
                     TempData["Agregado"] = "Usuario actualizado correctamente.";
@@ -141,13 +141,13 @@ namespace PL_MVC.Controllers
 
         public ActionResult Delete(int IdUsuario)
         {
-            ML.Result resultUsuario = BL.Usuario.DeleteSP(IdUsuario);
+            ML.Result resultUsuario = BL.Usuario.DeleteEFLQ(IdUsuario);
             if (resultUsuario.Correct)
             {
                 int IdDireccion = (int)resultUsuario.Object;
                 if (IdDireccion > 0)
                 {
-                    ML.Result resultDireccion = BL.Direccion.DeleteSP(IdDireccion);
+                    ML.Result resultDireccion = BL.Direccion.DeleteEFLQ(IdDireccion);
                     if (resultDireccion.Correct)
                     {
                         TempData["Success"] = "Usuario Eliminado Correctamente.";
@@ -166,16 +166,16 @@ namespace PL_MVC.Controllers
             return RedirectToAction("GetAll");
         }
 
-        public JsonResult MunicipioGetByIdEstado(int IdEstado)
+        public JsonResult MunicipioGetByIdEstado(byte IdEstado)
         {
-            ML.Result result = BL.Municipio.GetByIdEstado(IdEstado);
+            ML.Result result = BL.Municipio.GetByIdEstadoEFLQ(IdEstado);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult ColoniaGetByIdMunicipio(int IdMunicipio)
         {
-            ML.Result result = BL.Colonia.GetByIdMunicipio(IdMunicipio);
+            ML.Result result = BL.Colonia.GetByIdMunicipioEFLQ(IdMunicipio);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

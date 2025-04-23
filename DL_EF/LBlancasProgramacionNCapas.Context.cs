@@ -18,7 +18,7 @@ namespace DL_EF
     public partial class LBlancasProgramacionNCapasEntities : DbContext
     {
         public LBlancasProgramacionNCapasEntities()
-            : base("name=LBlancasProgramacionNCapasEntities")
+            :  base("name=LBlancasProgramacionNCapasEntities")
         {
         }
     
@@ -135,7 +135,7 @@ namespace DL_EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteSP", idUsuarioParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> DireccionAdd(string calle, string numeroExterior, string numeroInterior, Nullable<int> idColonia, ObjectParameter idDireccion)
+        public virtual int DireccionAdd(string calle, string numeroExterior, string numeroInterior, Nullable<int> idColonia, ObjectParameter idDireccion)
         {
             var calleParameter = calle != null ?
                 new ObjectParameter("Calle", calle) :
@@ -153,7 +153,7 @@ namespace DL_EF
                 new ObjectParameter("IdColonia", idColonia) :
                 new ObjectParameter("IdColonia", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("DireccionAdd", calleParameter, numeroExteriorParameter, numeroInteriorParameter, idColoniaParameter, idDireccion);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DireccionAdd", calleParameter, numeroExteriorParameter, numeroInteriorParameter, idColoniaParameter, idDireccion);
         }
     
         public virtual int DireccionDelete(Nullable<int> idDireccion)
@@ -363,27 +363,13 @@ namespace DL_EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioAll_Result>("UsuarioAll");
         }
     
-        public virtual ObjectResult<Nullable<int>> UsuarioDelete(Nullable<int> idUsuario, ObjectParameter idDireccion)
+        public virtual int UsuarioDelete(Nullable<int> idUsuario, ObjectParameter idDireccion)
         {
             var idUsuarioParameter = idUsuario.HasValue ?
                 new ObjectParameter("IdUsuario", idUsuario) :
                 new ObjectParameter("IdUsuario", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("UsuarioDelete", idUsuarioParameter, idDireccion);
-        }
-    
-        public virtual ObjectResult<UsuarioGetAll_Result> UsuarioGetAll()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetAll_Result>("UsuarioGetAll");
-        }
-    
-        public virtual ObjectResult<UsuarioGetByID_Result> UsuarioGetByID(Nullable<int> idUsuario)
-        {
-            var idUsuarioParameter = idUsuario.HasValue ?
-                new ObjectParameter("IdUsuario", idUsuario) :
-                new ObjectParameter("IdUsuario", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetByID_Result>("UsuarioGetByID", idUsuarioParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UsuarioDelete", idUsuarioParameter, idDireccion);
         }
     
         public virtual int Usuarios1()
@@ -463,6 +449,20 @@ namespace DL_EF
                 new ObjectParameter("IdDireccion", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UsuarioUpdate", idUsuarioParameter, nombreParameter, cURPParameter, idRolParameter, userNameParameter, apellidoPaternoParameter, apellidoMaternoParameter, emailParameter, passwordParameter, fechaNacimientoParameter, sexoParameter, telefonoParameter, celularParameter, estatusParameter, imagenParameter, idDireccionParameter);
+        }
+    
+        public virtual ObjectResult<UsuarioGetAll_Result> UsuarioGetAll()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetAll_Result>("UsuarioGetAll");
+        }
+    
+        public virtual ObjectResult<UsuarioGetByID_Result> UsuarioGetByID(Nullable<int> idUsuario)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetByID_Result>("UsuarioGetByID", idUsuarioParameter);
         }
     }
 }
