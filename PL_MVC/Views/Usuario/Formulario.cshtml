@@ -26,31 +26,59 @@
                 @*@Html.LabelFor(model => model.IdUsuario, new { @class = "form-label" }) <i class="bi bi-search"></i>
                 Html.TextBoxFor(model => model.IdUsuario, new { @class = "form-control" })*@
             </div> -->
-            <div class="col-12 col-md-6 col-lg-4 mb-3">
-                @Html.LabelFor(model => model.UserName, new { @class = "form-label" }) <i class="bi bi-pen-fill"></i>
-                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
-            </div>
+        <div class="col-12 col-md-6 col-lg-4 mb-3">
+            @Html.LabelFor(model => model.UserName, new { @class = "form-label" }) <i class="bi bi-pen-fill"></i>
+            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @id = "txtUserName", @onkeydown = "return ValidarUserName(event, 'lblErrorUserName', 'txtUserName', '8')", @onblur = "AgregarGuion(event, 'txtUserName')" })
+            <label class="text-danger" id="lblErrorUserName"></label>
+            @if (ViewBag.UserNameError != null)
+            {
+                <span class="text-danger">@ViewBag.UserNameError</span>
+            }
+            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+        </div>
             <div class="col-12 col-md-6 col-lg-4 mb-3">
                 @Html.LabelFor(model => model.Nombre, new { @class = "form-label" }) <i class="bi bi-clipboard-fill"></i>
-                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre", @onkeypress = "return ValidarSoloLetras(event, 'lblErrorNombre')" })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new {@id="lblErrorNombre", @class="text-danger"})
             </div>
             <div class="col-12 col-md-6 col-lg-4 mb-3">
                 @Html.LabelFor(model => model.ApellidoPaterno, new { @class = "form-label" }) <i class="bi bi-clipboard-minus"></i>
-                @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @id = "txtApellidoPaterno", @onkeypress = "return ValidarSoloLetras(event, 'lblErrorApellidoPaterno')" })
+                @Html.ValidationMessageFor(model => model.ApellidoPaterno, "", new { @id = "lblErrorApellidoPaterno", @class = "text-danger" })
+                
             </div>
         </div>
         <div class="row">
             <div class="col-12 col-md-6 col-lg-4 mb-3">
                 @Html.LabelFor(model => model.ApellidoMaterno, new { @class = "form-label" }) <i class="bi bi-clipboard-minus"></i>
-                @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @id = "txtApellidoMaterno", @onkeypress = "return ValidarSoloLetras(event, 'lblErrorApellidoMaterno')" })
+                @Html.ValidationMessageFor(model => model.ApellidoMaterno, "", new { @id = "lblErrorApellidoMaterno", @class = "text-danger" })
             </div>
             <div class="col-12 col-md-6 col-lg-4 mb-3">
                 @Html.LabelFor(model => model.Email, new { @class = "form-label" }) <i class="bi bi-envelope-at"></i>
-                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @id = "txtEmail", @onkeypress = "DesactivarEnter(event)", @onblur = "ValidarEmail('txtEmail', 'txtEmailConfirm', 'lblErrorEmail')" })
+                @Html.TextBoxFor(model => model.Email, new { placeholder = "Confirmar Correo", @style = "display:none;", @class = "form-control", @disabled = "disabled", @id = "txtEmailConfirm", @onblur = "return ConfirmarTextbox('txtEmail', 'txtEmailConfirm', 'lblErrorEmailConfirm');", @onkeypress = "DesactivarEnter(event)" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @id = "lblErrorEmail", @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @id = "lblErrorEmailConfirm", @class = "text-danger" })
+                @if (ViewBag.EmailError != null)
+                {
+                    <span class="text-danger">@ViewBag.EmailError</span>
+                }
             </div>
             <div class="col-12 col-md-6 col-lg-4 mb-3">
                 @Html.LabelFor(model => model.Password, new { @class = "form-label" }) <i class="bi bi-journal-x"></i>
-                @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Password, new
+           {
+               @class = "form-control",
+               @type = "password",
+               @id = "txtPassword",
+               @onkeypress ="DesactivarEnter(event)",
+               @onblur = "ValidarPassword('txtPassword', 'lblErrorPassword', 'txtPasswordConfirm', '8')"
+
+           })  
+                @Html.TextBoxFor(model => model.Password, new { placeholder= "Confirmar Contraseña", @style = "display:none;", @class = "form-control", @disabled = "disabled", @type = "password", @id = "txtPasswordConfirm", @onblur = "return ConfirmarTextbox('txtPassword', 'txtPasswordConfirm', 'lblErrorPasswordConfirm');", @onkeypress = "DesactivarEnter(event)" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @id = "lblErrorPassword", @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @id = "lblErrorPasswordConfirm", @class = "text-danger" })
             </div>
         </div>
         <div class="row">
@@ -60,17 +88,20 @@
             </div>
             <div class="col-12 col-md-6 col-lg-4 mb-3">
                 @Html.LabelFor(model => model.Sexo, new { @class = "form-label" }) <i class="bi bi-gender-neuter"></i>
-                @Html.TextBoxFor(model => model.Sexo, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Sexo, new { @class = "form-control", @id = "txtSexo", @onkeypress = "return ValidarSexo(event)" })
+                <label class="text-danger" id="lblErrorSexo"></label>
             </div>
             <div class="col-12 col-md-6 col-lg-4 mb-3">
                 @Html.LabelFor(model => model.Telefono, new { @class = "form-label" }) <i class="bi bi-telephone-fill"></i>
-                @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control", @id ="txtNumero", @onkeypress = "return ValidarSoloNumeros(event, 'lblErrorTelefono') && ValidarNumerosTelefonicos(event)" })
+                <label id="lblErrorTelefono" class="text-danger"></label>
             </div>
         </div>
         <div class="row">
             <div class="col-12 col-md-6 col-lg-4 mb-3">
                 @Html.LabelFor(model => model.Celular, new { @class = "form-label" }) <i class="bi bi-phone"></i>
-                @Html.TextBoxFor(model => model.Celular, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Celular, new { @class = "form-control", @id ="txtCelular", @onkeypress= "return ValidarSoloNumeros(event, 'lblErrorCelular') && ValidarNumerosTelefonicos(event)" })
+                <label class="text-danger" id="lblErrorCelular"></label>
             </div>
             <div class="col-12 col-md-6 col-lg-4 mb-3">
                 @Html.LabelFor(model => model.Estatus, new { @class = "form-label" }) <i class="bi bi-journal-check"></i>
@@ -78,7 +109,13 @@
             </div>
             <div class="col-12 col-md-6 col-lg-4 mb-3">
                 @Html.LabelFor(model => model.CURP, new { @class = "form-label" }) <i class="bi bi-archive"></i>
-                @Html.TextBoxFor(model => model.CURP, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.CURP, new { @class = "form-control", @id = "txtCURP", @onblur = "return ValidarCurp('txtCURP','lblErrorCURP')", @onkeypress = "DesactivarEnter(event)" })
+                <label class="text-danger" id="lblErrorCURP"></label>
+                @if (ViewBag.CURPError != null)
+                {
+                    <span class="text-danger">@ViewBag.CURPError</span>
+                }
+                @Html.ValidationMessageFor(model => model.CURP, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row">
@@ -161,11 +198,13 @@
                 <div class="alert alert-success">
                     <i class="bi bi-send"> @TempData["Actualizado"]</i>
                 </div>}
+           
         </div>
     }
 </div>
 <script src="~/Scripts/jquery-3.4.1.js">
-
+</script>
+<script src="~/Scripts/Usuario/Validaciones.js">
 </script>
 <script type="text/javascript">
     function PrevisualizarYValidarImagen(event)

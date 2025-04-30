@@ -783,8 +783,15 @@ namespace BL
                     usuarioDL.Imagen = usuario.Imagen;
                     usuarioDL.IdDireccion = usuario.Direccion.IdDireccion;
                     context.Usuarios.Add(usuarioDL);
-                    context.SaveChanges();
-                    result.Correct = true;
+                    int rowsAffected = context.SaveChanges();
+                    if (rowsAffected > 0)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
                 }
             }
             catch(Exception ex) 
@@ -823,8 +830,15 @@ namespace BL
                         query.Estatus = usuario.Estatus;
                         query.Imagen = usuario.Imagen;
                         query.Direccion.IdDireccion = usuario.Direccion.IdDireccion;
-                        context.SaveChanges();
-                        result.Correct = true;
+                        int rowsAffected = context.SaveChanges();
+                        if (rowsAffected > 0)
+                        {
+                            result.Correct = true;
+                        }
+                        else
+                        {
+                            result.Correct = false;
+                        }
                     }
                     else
                     {
@@ -855,8 +869,15 @@ namespace BL
                                  select usuarioDB).SingleOrDefault();
                     result.Object = query.IdDireccion;
                     context.Usuarios.Remove(query);
-                    context.SaveChanges();
-                    result.Correct = true;
+                    int rowsAffected = context.SaveChanges();
+                    if (rowsAffected > 0)
+                    {
+                        result.Correct = true;
+                    }
+                    else 
+                    { 
+                        result.Correct = false; 
+                    }
                 }
             }
             catch (Exception ex)
@@ -1040,6 +1061,97 @@ namespace BL
                     {
                         result.Correct = false;
                         result.ErrorMessage = "No se encontraron usuarios";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
+
+        public static ML.Result GetByIdEmailEFLQ(string Email)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.LBlancasProgramacionNCapasEntities context = new DL_EF.LBlancasProgramacionNCapasEntities())
+                {
+                    var query = (from usuarioDB in context.Usuarios
+                                 where usuarioDB.Email == Email
+                                 select usuarioDB);
+                    if (query != null && query.Count() > 0)
+                    {
+                        result.ErrorMessage = "Email ya registrado";
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No se encontro el Email";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
+        public static ML.Result GetByIdUserNameEFLQ(string UserName)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.LBlancasProgramacionNCapasEntities context = new DL_EF.LBlancasProgramacionNCapasEntities())
+                {
+                    var query = (from usuarioDB in context.Usuarios
+                                 where usuarioDB.UserName == UserName
+                                 select usuarioDB);
+                    if (query != null && query.Count() > 0)
+                    {
+                        result.ErrorMessage = "UserName ya registrado";
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No se encontro el UserName";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
+        public static ML.Result GetByIdCURPEFLQ(string CURP)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.LBlancasProgramacionNCapasEntities context = new DL_EF.LBlancasProgramacionNCapasEntities())
+                {
+                    var query = (from usuarioDB in context.Usuarios
+                                 where usuarioDB.CURP == CURP
+                                 select usuarioDB);
+                    if (query != null && query.Count() > 0)
+                    {
+                        result.Correct = true;
+                        result.ErrorMessage = "CURP ya registrado";
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No se encontro el CURP";
                     }
                 }
             }

@@ -37,7 +37,7 @@
                         @foreach (ML.Usuario usuario in Model.Usuarios)
                         {
                             <tr>
-                                <input type="hidden" name="IdUsuario" value="@usuario.IdUsuario" />
+                                <input type="hidden" name="IdUsuario" value="@usuario.IdUsuario" /> 
                                 <td>@Html.ActionLink("Editar", "Formulario", "Usuario", new { IdUsuario = usuario.IdUsuario }, new { @class = "btn btn-warning" })</td>
 
                                 <td>@usuario.UserName</td>

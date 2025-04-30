@@ -306,9 +306,16 @@ namespace BL
                     direccionDL.NumeroInterior = usuario.Direccion.NumeroInterior;
                     direccionDL.IdColonia = usuario.Direccion.Colonia.IdColonia;
                     context.Direccions.Add(direccionDL);
-                    context.SaveChanges();
-                    result.Correct = true;
-                    result.Object = direccionDL.IdDireccion; 
+                    int rowsAffected = context.SaveChanges();
+                    if (rowsAffected > 0)
+                    {
+                        result.Correct = true;
+                        result.Object = direccionDL.IdDireccion;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
                 }
             }
             catch(Exception ex) 
@@ -337,9 +344,16 @@ namespace BL
                         query.NumeroExterior = usuario.Direccion.NumeroExterior;
                         query.NumeroInterior = usuario.Direccion.NumeroInterior;
                         query.IdColonia = usuario.Direccion.Colonia.IdColonia;
-                        context.SaveChanges();
-                        result.Correct = true;
-                        result.Object = query.IdDireccion;
+                        int rowsAffected = context.SaveChanges();
+                        if (rowsAffected != null)
+                        {
+                            result.Correct = true;
+                            result.Object = query.IdDireccion;
+                        }
+                        else
+                        {
+                            result.Correct = false;
+                        }
 
                     }
                     else
@@ -368,8 +382,15 @@ namespace BL
                                  where direccionDB.IdDireccion == IdDireccion
                                  select direccionDB).First();
                     context.Direccions.Remove(query);
-                    context.SaveChanges();
-                    result.Correct= true;
+                    int rowsAffected = context.SaveChanges();
+                    if (rowsAffected > 0)
+                    {
+                        result.Correct = true;             
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
                 }
             }
             catch (Exception ex)

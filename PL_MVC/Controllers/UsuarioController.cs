@@ -77,29 +77,55 @@ namespace PL_MVC.Controllers
 
             if (usuario.IdUsuario == 0) // Nuevo usuario
             {
-                ML.Result resultDireccion = BL.Direccion.AddEFLQ(usuario);
-                if (resultDireccion.Correct)
+                ML.Result resultEmail = BL.Usuario.GetByIdEmailEFLQ(usuario.Email);
+                ML.Result resultUserName = BL.Usuario.GetByIdUserNameEFLQ(usuario.UserName);
+                ML.Result resultCURP = BL.Usuario.GetByIdCURPEFLQ(usuario.CURP);
+                if (resultEmail.Correct == false && resultUserName.Correct == false && resultCURP.Correct == false)
                 {
-                    usuario.Direccion.IdDireccion = (int)resultDireccion.Object;
-
-                    result = BL.Usuario.AddEFLQ(usuario);
-                    if (result.Correct)
+                    ML.Result resultDireccion = BL.Direccion.AddEFLQ(usuario);
+                    if (resultDireccion.Correct)
                     {
-                        TempData["Agregado"] = "Usuario agregado correctamente.";
-                        return RedirectToAction("GetAll");
+                        usuario.Direccion.IdDireccion = (int)resultDireccion.Object;
+
+                        result = BL.Usuario.AddEFLQ(usuario);
+                        if (result.Correct)
+                        {
+                            TempData["Agregado"] = "Usuario agregado correctamente.";
+                            return RedirectToAction("GetAll");
+                        }
+                        else
+                        {
+                            TempData["Error"] = "Error al agregar el usuario: " + result.ErrorMessage;
+                        }
                     }
                     else
                     {
-                        TempData["Error"] = "Error al agregar el usuario: " + result.ErrorMessage;
+                        TempData["Error"] = "Error al agregar la dirección: " + resultDireccion.ErrorMessage;
                     }
                 }
                 else
                 {
-                    TempData["Error"] = "Error al agregar la dirección: " + resultDireccion.ErrorMessage;
+                    ML.Result resultRoles = BL.Rol.GetAllEFLQ();
+                    usuario.Rol.Roles = resultRoles.Correct ? resultRoles.Objects : new List<object>();
+                    ML.Result resultEstados = BL.Estado.GetAllEFLQ();
+                    usuario.Direccion.Colonia.Municipio.Estado.Estados = resultEstados.Correct ? resultEstados.Objects : new List<object>();
+                    ML.Result resultMunicipios = BL.Municipio.GetByIdEstadoEFLQ(usuario.Direccion.Colonia.Municipio.Estado.IdEstado);
+                    usuario.Direccion.Colonia.Municipio.Municipios = resultMunicipios.Correct ? resultMunicipios.Objects : new List<object>();
+                    ML.Result resultColonias = BL.Colonia.GetByIdMunicipioEFLQ(usuario.Direccion.Colonia.Municipio.IdMunicipio);
+                    usuario.Direccion.Colonia.Colonias = resultColonias.Correct ? resultColonias.Objects : new List<object>();
+                    // Pasar los errores específicos a la vista
+                    ViewBag.EmailError = resultEmail.Correct == true ? "El correo ya está registrado" : null;
+                    ViewBag.UserNameError = resultUserName.Correct == true ? "El usuario ya existe" : null;
+                    ViewBag.CURPError = resultCURP.Correct == true ? "La CURP ya está registrada" : null;
+
+                    // Mantener los datos ingresados para no perderlos
+                    ViewBag.Usuario = usuario;
+                    return View(usuario);
                 }
             }
             else // Si es una actualización de usuario
             {
+
                 if (usuario.Direccion.IdDireccion == 0) // Si no tiene dirección, agregar una nueva
                 {
                     ML.Result resultDireccion = BL.Direccion.AddEFLQ(usuario);
