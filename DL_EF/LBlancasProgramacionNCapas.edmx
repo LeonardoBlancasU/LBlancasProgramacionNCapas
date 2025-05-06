@@ -201,6 +201,10 @@
           <Parameter Name="Estatus" Type="bit" Mode="In" />
           <Parameter Name="Imagen" Type="varbinary(max)" Mode="In" />
         </Function>
+        <Function Name="UpdateUsuarioIdEstatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+          <Parameter Name="Estatus" Type="bit" Mode="In" />
+        </Function>
         <Function Name="UsuarioAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
           <Parameter Name="CURP" Type="varchar" Mode="In" />
@@ -558,6 +562,10 @@
           <FunctionImport Name="UsuarioGetByID" ReturnType="Collection(LBlancasProgramacionNCapasModel.UsuarioGetByID_Result)">
           <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="UpdateUsuarioIdEstatus">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="Estatus" Mode="In" Type="Boolean" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="ColoniaGetByIdMunicipio_Result">
           <Property Type="Int32" Name="IdColonia" Nullable="false" />
@@ -868,6 +876,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateUsuarioIdEstatus" FunctionName="LBlancasProgramacionNCapasModel.Store.UpdateUsuarioIdEstatus" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

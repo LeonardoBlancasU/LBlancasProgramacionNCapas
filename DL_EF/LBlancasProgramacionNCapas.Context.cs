@@ -18,7 +18,7 @@ namespace DL_EF
     public partial class LBlancasProgramacionNCapasEntities : DbContext
     {
         public LBlancasProgramacionNCapasEntities()
-            :  base("name=LBlancasProgramacionNCapasEntities")
+            : base("name=LBlancasProgramacionNCapasEntities")
         {
         }
     
@@ -463,6 +463,19 @@ namespace DL_EF
                 new ObjectParameter("IdUsuario", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetByID_Result>("UsuarioGetByID", idUsuarioParameter);
+        }
+    
+        public virtual int UpdateUsuarioIdEstatus(Nullable<int> idUsuario, Nullable<bool> estatus)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(int));
+    
+            var estatusParameter = estatus.HasValue ?
+                new ObjectParameter("Estatus", estatus) :
+                new ObjectParameter("Estatus", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateUsuarioIdEstatus", idUsuarioParameter, estatusParameter);
         }
     }
 }

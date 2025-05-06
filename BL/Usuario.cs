@@ -1031,7 +1031,7 @@ namespace BL
                         usuarioDL.Email = query.Email;
                         usuarioDL.Password = query.Password;
                         usuarioDL.FechaNacimiento = query.FechaNacimiento.ToString("yyyy-MM-dd");
-                        usuarioDL.Sexo = query.Sexo;
+                        usuarioDL.Sexo = query.Sexo.Trim();
                         usuarioDL.Telefono = query.Telefono;
                         usuarioDL.Celular = query.Celular;
                         usuarioDL.Estatus = query.Estatus;
@@ -1152,6 +1152,149 @@ namespace BL
                     {
                         result.Correct = false;
                         result.ErrorMessage = "No se encontro el CURP";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
+        public static ML.Result GetByIdEmailAndUsuarioEFLQ(int IdUsuario,string Email)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.LBlancasProgramacionNCapasEntities context = new DL_EF.LBlancasProgramacionNCapasEntities())
+                {
+                    var query = (from usuarioDB in context.Usuarios
+                                 where usuarioDB.Email == Email
+                                 select new { idUsuario = usuarioDB.IdUsuario }).SingleOrDefault();
+                    if (query != null)
+                    {
+                        if (IdUsuario == query.idUsuario)
+                        {
+                            result.Correct = false;
+                            //No hay cambios en el Correo
+                        }
+                        else
+                        {
+                            result.Correct = true;
+                            result.ErrorMessage = "Otro usuario ya registro ese correo";
+                        }
+                        }
+                    else
+                    {
+                        result.Correct = false;
+                        //Nuevo Email
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
+
+        public static ML.Result GetByIdUserNameAndUsuarioEFLQ(int IdUsuario, string UserName)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.LBlancasProgramacionNCapasEntities context = new DL_EF.LBlancasProgramacionNCapasEntities())
+                {
+                    var query = (from usuarioDB in context.Usuarios
+                                 where usuarioDB.UserName == UserName
+                                 select new { idUsuario = usuarioDB.IdUsuario }).SingleOrDefault();
+                    if (query != null)
+                    {
+                        if (IdUsuario == query.idUsuario)
+                        {
+                            result.Correct = false;
+                            //No hay cambios en el UserName
+                        }
+                        else
+                        {
+                            result.Correct = true;
+                            result.ErrorMessage = "Otro usuario ya registro ese UserName";
+                        }
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        //Nuevo UserName
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
+
+        public static ML.Result GetByIdCurpAndUsuarioEFLQ(int IdUsuario, string Curp)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.LBlancasProgramacionNCapasEntities context = new DL_EF.LBlancasProgramacionNCapasEntities())
+                {
+                    var query = (from usuarioDB in context.Usuarios
+                                 where usuarioDB.CURP == Curp
+                                 select new { idUsuario = usuarioDB.IdUsuario }).SingleOrDefault();
+                    if (query != null)
+                    {
+                        if (IdUsuario == query.idUsuario)
+                        {
+                            result.Correct = false;
+                            //No hay cambios en el CURP
+                        }
+                        else
+                        {
+                            result.Correct = true;
+                            result.ErrorMessage = "Otro usuario ya registro ese CURP";
+                        }
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        //Nuevo CURP
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
+
+        public static ML.Result UpdateIdEstatusEFSP(int IdUsuario, bool Estatus)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.LBlancasProgramacionNCapasEntities context = new DL_EF.LBlancasProgramacionNCapasEntities())
+                {
+                    var rowsAffected = context.UpdateUsuarioIdEstatus(IdUsuario, Estatus);
+                    if (rowsAffected > 0)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
                     }
                 }
             }

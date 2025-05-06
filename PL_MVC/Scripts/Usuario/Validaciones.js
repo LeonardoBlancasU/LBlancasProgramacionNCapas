@@ -135,6 +135,8 @@ function ValidarNumerosTelefonicos(event) {
 function ValidarPassword(inputId, labelId, TextboxId, long) {
     var input = $("#" + inputId).val();
     var confirm = $("#" + TextboxId);
+    var span = $("#spanPasswordConfirm");
+    var boton = $("#btnPasswordConfirm")
     var repetidos = /(\d)\1/;
     var secuenciaAscendente = /(?:0(?=1)|1(?=2)|2(?=3)|3(?=4)|4(?=5)|5(?=6)|6(?=7)|7(?=8)|8(?=9)){3,}/;
     var secuenciaDescendente = /(?:9(?=8)|8(?=7)|7(?=6)|6(?=5)|5(?=4)|4(?=3)|3(?=2)|2(?=1)|1(?=0)){3,}/;
@@ -142,41 +144,69 @@ function ValidarPassword(inputId, labelId, TextboxId, long) {
         $("#" + labelId).text("Debe tener al menos una Mayuscula");
         confirm.hide();
         confirm.prop('disabled', true);
+        span.hide();
+        span.prop('disabled', true);
+        boton.hide();
+        boton.prop('disabled', true);
         $("#" + inputId).css({ 'border': '3px solid red', 'color': 'red' });
     }
     else if (repetidos.test(input) || secuenciaAscendente.test(input) || secuenciaDescendente.test(input)) {
         $("#" + labelId).text("No debe tener numeros consecutivos o repetidos");
         confirm.hide();
         confirm.prop('disabled', true);
+        span.hide();
+        span.prop('disabled', true);
+        boton.hide();
+        boton.prop('disabled', true);
         $("#" + inputId).css({ 'border': '3px solid red', 'color': 'red' });
     }
     else if (!/[a-z]/.test(input)) {
         $("#" + labelId).text("Debe tener al menos una minuscula");
         confirm.hide();
         confirm.prop('disabled', true);
+        span.hide();
+        span.prop('disabled', true);
+        boton.hide();
+        boton.prop('disabled', true);
         $("#" + inputId).css({ 'border': '3px solid red', 'color': 'red' });
     }
     else if (!/[@$!%*?&]/.test(input)) {
         $("#" + labelId).text("Debe tener al menos un Caracter Especial (@$!%*?&)");
         confirm.hide();
         confirm.prop('disabled', true);
+        span.hide();
+        span.prop('disabled', true);
+        boton.hide();
+        boton.prop('disabled', true);
         $("#" + inputId).css({ 'border': '3px solid red', 'color': 'red' });
     } 
     else if (!/\d/.test(input)) {
         $("#" + labelId).text("Debe tener al menos un numero");
         confirm.hide();
         confirm.prop('disabled', true);
+        span.hide();
+        span.prop('disabled', true);
+        boton.hide();
+        boton.prop('disabled', true);
         $("#" + inputId).css({ 'border': '3px solid red', 'color': 'red' });
     } 
     else if (input.length < long) {
         $("#" + labelId).text(`Debe tener al menos ${long} caracteres`);
         confirm.hide();
         confirm.prop('disabled', true);
+        span.hide();
+        span.prop('disabled', true);
+        boton.hide();
+        boton.prop('disabled', true);
         $("#" + inputId).css({ 'border': '3px solid red', 'color': 'red' });
     } 
     else {   
         confirm.show();
         confirm.prop('disabled', false);
+        span.show();
+        span.prop('disabled', false);
+        boton.show();
+        boton.prop('disabled', false);
         $("#" + inputId).css({ 'border': '3px solid green', 'color': 'green' });
         $("#" + labelId).text("");
     }
@@ -219,18 +249,27 @@ function ValidarUserName(event, labelId, inputId, long) {
 }
 function AgregarGuion(event, inputId) {
     input = $("#" + inputId).val();
-    var guion = "-";
-    event.target.value = input + guion;
-    return true;
+    if (input.length + 1) {
+        var guion = "-";
+        var username = input + guion;
+        event.target.value = username;
+        return true
+    }
+    else {
+        return false;
+    }
 }
 function ValidarEmail(inputId, TextBoxId, labelId) {
     $("#" + inputId).css({ 'border': 'dark', 'color': 'dark' });
     var input = $("#" + inputId).val();
+    var span = $("#spanEmailConfirm");
     var expression = /[a-zA-Z0-9.*%±]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}/;
     var confirmEmail = $("#" + TextBoxId);
     if (expression.test(input)) {
         confirmEmail.show();
         confirmEmail.prop('disabled', false);
+        span.show();
+        span.prop('disabled', false)
         $("#" + labelId).text("");
         $("#" + inputId).css({ 'border': '3px solid green', 'color': 'green' });
         return true;
@@ -238,6 +277,8 @@ function ValidarEmail(inputId, TextBoxId, labelId) {
     else {
         confirmEmail.hide();
         confirmEmail.prop('disabled', true);
+        span.hide();
+        span.prop('disabled', true)
         $("#" + inputId).css({ 'border': '3px solid red', 'color': 'red' });
         $("#" + labelId).text("Email no valido");
         return false
@@ -247,7 +288,7 @@ function ValidarEmail(inputId, TextBoxId, labelId) {
 function ValidarCurp(inputId, labelId) {
     $("#" + inputId).css({ 'border': 'dark', 'color': 'dark' });
     var input = $("#" + inputId).val().toUpperCase();
-    var regex = /^[A-Z]{4}[0-9]{6}[HM][A-Z]{5}[0-9A-Z]\d$/;
+    var regex = /^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0\d|1[0-2])(?:[0-2]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$/;
     if (regex.test(input)) {
         $("#" + inputId).css({ 'border': '3px solid green', 'color': 'green' });
         $("#" + labelId).text("");
@@ -258,4 +299,56 @@ function ValidarCurp(inputId, labelId) {
         $("#" + labelId).text("CURP no valido");
         return false;
     }
+}
+
+function ValidarCampos(){
+    
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+        }, false)
+    });
+}
+function VerPassword(icon, input) {
+    var icono = $("#" + icon);
+    var textbox = $("#" + input);
+
+    if (textbox.attr('type') === 'password') {
+        textbox.attr('type', 'text');
+        icono.removeClass("bi-eye-slash").addClass('bi-eye');
+    }
+    else {
+        textbox.attr('type', 'password');
+        icono.removeClass("bi-eye").addClass('bi-eye-slash');
+    }
+}
+
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+function ValidarCampos() {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
 }

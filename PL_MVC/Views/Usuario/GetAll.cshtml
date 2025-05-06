@@ -13,9 +13,10 @@
         <div class="col-12 col-md-6 col-lg-4 mb-3">
             @if (Model.Usuarios != null)
             {
-                <table class="table table-hover">
+                <table class="table table-hover table-responsive">
                     <thead>
                         <tr>
+                            <td> Estatus </td>
                             <td> Editar </td>
                             <td> Nombre de Usuario </td>
                             <td> Nombre </td>
@@ -26,7 +27,7 @@
                             <td> Sexo </td>
                             <td> Telefono </td>
                             <td> Celular </td>
-                            <td> Estatus </td>
+
                             <td> CURP </td>
                             <td> Imagen </td>
                             <td> Rol </td>
@@ -37,7 +38,18 @@
                         @foreach (ML.Usuario usuario in Model.Usuarios)
                         {
                             <tr>
-                                <input type="hidden" name="IdUsuario" value="@usuario.IdUsuario" /> 
+                                <input type="hidden" name="IdUsuario" value="@usuario.IdUsuario" />
+                                <td>
+                                    <span id="lblEstatus_@usuario.IdUsuario">@usuario.Estatus</span>
+                                    <div class="form-check form-switch">
+                                        <input type="checkbox"
+                                               class="form-check-input"
+                                               role="switch"
+                                               id="SwitchEstatus_@usuario.IdUsuario"
+                                               @(usuario.Estatus ? "checked" : "")
+                                               onchange="UpdateEstatus(@usuario.IdUsuario, this.checked)" />
+                                    </div>
+                                </td>
                                 <td>@Html.ActionLink("Editar", "Formulario", "Usuario", new { IdUsuario = usuario.IdUsuario }, new { @class = "btn btn-warning" })</td>
 
                                 <td>@usuario.UserName</td>
@@ -65,7 +77,7 @@
                                 <td>@usuario.Sexo</td>
                                 <td>@usuario.Telefono</td>
                                 <td>@usuario.Celular</td>
-                                <td>@usuario.Estatus</td>
+
                                 <td>@usuario.CURP</td>
                                 <td>
                                     @if (usuario.Imagen != null)
@@ -96,7 +108,7 @@
                     <i class="bi bi-question-octagon">A simple danger alert-check it out!</i>
                 </div>
             }
-
+            <span id="lblEstatusUpdate"></span>
             @if (TempData["Success"] != null)
             {
                 <div class="alert alert-success">
@@ -121,3 +133,31 @@
     </div>
 </div>
 <h2>GetAll</h2>
+
+<script src="~/Scripts/jquery-3.4.1.js">
+</script>
+<script>
+    function UpdateEstatus(IdUsuario, Estatus) {
+        $("#lblEstatusUpdate").text('').removeClass('alert alert-success alert-danger');
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("UpdateIdEstatus")',
+        dataType: 'json',
+
+        contentType: 'application/json',
+        data: { idusuario: IdUsuario, estatus: Estatus },
+        success: function (result) {
+            if (result.Correct) {
+                $("#lblEstatus_"+IdUsuario).text(''+Estatus);
+                $("#lblEstatusUpdate").addClass('bi bi-check-all alert alert-success').text('Estatus Actualizado');
+            }
+            else {
+                $("#lblEstatusUpdate").addClass('bi bi-x-square alert alert-danger').text('Hubo un Error al Actualizar el Estatus');
+            }
+        },
+        error: function (ex) {
+            alert('Failed.' + ex);
+        }
+    });
+}
+</script>
