@@ -1,18 +1,20 @@
 ﻿function UpdateEstatus(IdUsuario, Estatus) {
-    /*Estatus = $("#SwitchEstatus").val();*/
+    $("#lblEstatusUpdate").text('').removeClass('alert alert-success alert-danger');
     $.ajax({
-        type: 'POST',
-        url: '@Url.Action("UpdateIdEstatus")',
+        type: 'GET',
+        url: '/Usuario/UpdateIdEstatus',
         dataType: 'json',
 
         contentType: 'application/json',
         data: { idusuario: IdUsuario, estatus: Estatus },
         success: function (result) {
             if (result.Correct) {
-                TempData["Success"] = "Estatus Actualizado Correctamente.";
+                $("#lblEstatus_" + IdUsuario).text('' + Estatus);
+                $("#lblEstatusUpdate").addClass('bi bi-check-all alert alert-success').text('Estatus Actualizado');
             }
             else {
-                TempData["Success"] = "Hubo un error al Actualizar el Estatus.";
+                $("#SwitchEstatus_" + IdUsuario).prop('checked', !Estatus);
+                $("#lblEstatusUpdate").addClass('bi bi-x-square alert alert-danger').text('Hubo un Error al Actualizar el Estatus');
             }
         },
         error: function (ex) {

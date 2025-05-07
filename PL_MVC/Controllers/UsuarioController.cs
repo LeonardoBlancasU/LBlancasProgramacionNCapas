@@ -245,7 +245,6 @@ namespace PL_MVC.Controllers
         public JsonResult UpdateIdEstatus(int IdUsuario, bool Estatus)
         {
             ML.Result result = BL.Usuario.UpdateIdEstatusEFSP(IdUsuario, Estatus);
-
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

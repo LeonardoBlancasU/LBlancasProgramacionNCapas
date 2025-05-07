@@ -8,6 +8,29 @@ function DesactivarEnter(event) {
         event.preventDefault();
     }
 }
+
+function PrevisualizarYValidarImagen(event) {
+    var archivo = event.target.files[0];
+    var preview = document.getElementById("imgUsuario");
+
+    if (archivo) {
+        var extension = archivo.name.split('.').pop().toLowerCase();
+        var extensionesPermitidas = ["jpg", "jpeg", "png", "gif", "bmp"];
+
+        if (extensionesPermitidas.includes(extension)) {
+            preview.src = URL.createObjectURL(archivo);
+            preview.onload = function () {
+                URL.revokeObjectURL(preview.src);
+            };
+        }
+        else {
+            alert("Archivo no Valido. Solo se permiten imagenes (JPG, JPEG, PNG, GIF, BMP)")
+            event.target.value = "";
+            var imagenCargada = preview.getAttribute("src")
+            preview.src = imagenCargada;
+        }
+    }
+}
 function ValidarSoloLetras(event, LabelId) { 
     var noEnter = DesactivarEnter(event);
     var letra = event.key;
