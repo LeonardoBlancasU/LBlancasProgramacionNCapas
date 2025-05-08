@@ -924,7 +924,7 @@ namespace BL
                                      NombreColonia = colonia.Nombre, 
                                      CodigoPostal = colonia.CodigoPostal, 
                                      NombreMunicipio = municipio.Nombre, 
-                                     NombreEstado = estado.Nombre });
+                                     NombreEstado = estado.Nombre});
                     result.Objects = new List<object>();
                     if (query != null && query.ToList().Count > 0)
                     {
@@ -946,6 +946,7 @@ namespace BL
                             usuarioDL.CURP = obj.CURP;
                             usuarioDL.Imagen = obj.Imagen;
                             usuarioDL.Rol = new ML.Rol();
+                            usuarioDL.Rol.IdRol= obj.IdRol;
                             usuarioDL.Rol.Nombre = obj.NombreRol;
                             usuarioDL.Direccion = new ML.Direccion();
                             usuarioDL.Direccion.Calle = obj.Calle;
@@ -1295,6 +1296,264 @@ namespace BL
                     else
                     {
                         result.Correct = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
+
+        public static ML.Result GetAllEFLQBA(string Nombre, string ApellidoPaterno, string ApellidoMaterno, int IdRol)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.LBlancasProgramacionNCapasEntities context = new DL_EF.LBlancasProgramacionNCapasEntities())
+                {
+                    var query = (from usuario in context.Usuarios
+                                 join direccion in context.Direccions on usuario.IdDireccion equals direccion.IdDireccion
+                                 join rol in context.Rols on usuario.IdRol equals rol.IdRol
+                                 join colonia in context.Colonias on direccion.IdColonia equals colonia.IdColonia
+                                 join municipio in context.Municipios on colonia.IdMunicipio equals municipio.IdMunicipio
+                                 join estado in context.Estadoes on municipio.IdEstado equals estado.IdEstado
+                                 select new
+                                 {
+                                     IdUsuario = usuario.IdUsuario,
+                                     Nombre = usuario.Nombre,
+                                     CURP = usuario.CURP,
+                                     IdRol = usuario.Rol.IdRol,
+                                     UserName = usuario.UserName,
+                                     ApellidoPaterno = usuario.ApellidoPaterno,
+                                     ApellidoMaterno = usuario.ApellidoMaterno,
+                                     Email = usuario.Email,
+                                     Password = usuario.Password,
+                                     FechaNacimiento = usuario.FechaNacimiento,
+                                     Sexo = usuario.Sexo,
+                                     Telefono = usuario.Telefono,
+                                     Celular = usuario.Celular,
+                                     Estatus = usuario.Estatus,
+                                     Imagen = usuario.Imagen,
+                                     NombreRol = rol.Nombre,
+                                     Calle = direccion.Calle,
+                                     NumeroExterior = direccion.NumeroExterior,
+                                     NumeroInterior = direccion.NumeroInterior,
+                                     NombreColonia = colonia.Nombre,
+                                     CodigoPostal = colonia.CodigoPostal,
+                                     NombreMunicipio = municipio.Nombre,
+                                     NombreEstado = estado.Nombre
+                                 });
+                    var queryBA = (from usuario in context.Usuarios
+                                   join direccion in context.Direccions on usuario.IdDireccion equals direccion.IdDireccion
+                                   join rol in context.Rols on usuario.IdRol equals rol.IdRol
+                                   join colonia in context.Colonias on direccion.IdColonia equals colonia.IdColonia
+                                   join municipio in context.Municipios on colonia.IdMunicipio equals municipio.IdMunicipio
+                                   join estado in context.Estadoes on municipio.IdEstado equals estado.IdEstado
+                                   where usuario.Nombre.Contains(Nombre) && usuario.ApellidoPaterno.Contains(ApellidoPaterno) &&
+                                   usuario.ApellidoMaterno.Contains(ApellidoMaterno)
+                                   select new
+                                   {
+                                       IdUsuario = usuario.IdUsuario,
+                                       Nombre = usuario.Nombre,
+                                       CURP = usuario.CURP,
+                                       IdRol = usuario.Rol.IdRol,
+                                       UserName = usuario.UserName,
+                                       ApellidoMaterno = usuario.ApellidoMaterno,
+                                       ApellidoPaterno = usuario.ApellidoPaterno,
+                                       Email = usuario.Email,
+                                       Password = usuario.Password,
+                                       FechaNacimiento = usuario.FechaNacimiento,
+                                       Sexo = usuario.Sexo,
+                                       Telefono = usuario.Telefono,
+                                       Celular = usuario.Celular,
+                                       Estatus = usuario.Estatus,
+                                       Imagen = usuario.Imagen,
+                                       NombreRol = rol.Nombre,
+                                       Calle = direccion.Calle,
+                                       NumeroExterior = direccion.NumeroExterior,
+                                       NumeroInterior = direccion.NumeroInterior,
+                                       NombreColonia = colonia.Nombre,
+                                       CodigoPostal = colonia.CodigoPostal,
+                                       NombreMunicipio = municipio.Nombre,
+                                       NombreEstado = estado.Nombre
+                                   });
+
+                    var queryBARol = (from usuario in context.Usuarios
+                                      join direccion in context.Direccions on usuario.IdDireccion equals direccion.IdDireccion
+                                      join rol in context.Rols on usuario.IdRol equals rol.IdRol
+                                      join colonia in context.Colonias on direccion.IdColonia equals colonia.IdColonia
+                                      join municipio in context.Municipios on colonia.IdMunicipio equals municipio.IdMunicipio
+                                      join estado in context.Estadoes on municipio.IdEstado equals estado.IdEstado
+                                      where usuario.Nombre.Contains(Nombre) && usuario.ApellidoPaterno.Contains(ApellidoPaterno) &&
+                                      usuario.ApellidoMaterno.Contains(ApellidoMaterno) && rol.IdRol == IdRol
+                                      select new
+                                      {
+                                          IdUsuario = usuario.IdUsuario,
+                                          Nombre = usuario.Nombre,
+                                          CURP = usuario.CURP,
+                                          IdRol = usuario.Rol.IdRol,
+                                          UserName = usuario.UserName,
+                                          ApellidoMaterno = usuario.ApellidoMaterno,
+                                          ApellidoPaterno = usuario.ApellidoPaterno,
+                                          Email = usuario.Email,
+                                          Password = usuario.Password,
+                                          FechaNacimiento = usuario.FechaNacimiento,
+                                          Sexo = usuario.Sexo,
+                                          Telefono = usuario.Telefono,
+                                          Celular = usuario.Celular,
+                                          Estatus = usuario.Estatus,
+                                          Imagen = usuario.Imagen,
+                                          NombreRol = rol.Nombre,
+                                          Calle = direccion.Calle,
+                                          NumeroExterior = direccion.NumeroExterior,
+                                          NumeroInterior = direccion.NumeroInterior,
+                                          NombreColonia = colonia.Nombre,
+                                          CodigoPostal = colonia.CodigoPostal,
+                                          NombreMunicipio = municipio.Nombre,
+                                          NombreEstado = estado.Nombre
+                                      });
+                    result.Objects = new List<object>();
+                    if (Nombre == "" && ApellidoMaterno == "" && ApellidoPaterno == "" && IdRol == 0)
+                    {
+                        if (query != null && query.ToList().Count() > 0)
+                        {
+                            foreach (var obj in query)
+                            {
+                                ML.Usuario usuarioDL = new ML.Usuario();
+                                usuarioDL.IdUsuario = obj.IdUsuario;
+                                usuarioDL.Nombre = obj.Nombre;
+                                usuarioDL.UserName = obj.UserName;
+                                usuarioDL.ApellidoMaterno = obj.ApellidoMaterno;
+                                usuarioDL.ApellidoPaterno = obj.ApellidoPaterno;
+                                usuarioDL.Email = obj.Email;
+                                usuarioDL.Password = obj.Password;
+                                usuarioDL.FechaNacimiento = obj.FechaNacimiento.ToString("dd-MM-yyyy");
+                                usuarioDL.Sexo = obj.Sexo;
+                                usuarioDL.Telefono = obj.Telefono;
+                                usuarioDL.Celular = obj.Celular;
+                                usuarioDL.Estatus = obj.Estatus;
+                                usuarioDL.CURP = obj.CURP;
+                                usuarioDL.Imagen = obj.Imagen;
+                                usuarioDL.Rol = new ML.Rol();
+                                usuarioDL.Rol.IdRol = obj.IdRol;
+                                usuarioDL.Rol.Nombre = obj.NombreRol;
+                                usuarioDL.Direccion = new ML.Direccion();
+                                usuarioDL.Direccion.Calle = obj.Calle;
+                                usuarioDL.Direccion.NumeroExterior = obj.NumeroExterior;
+                                usuarioDL.Direccion.NumeroInterior = obj.NumeroInterior;
+                                usuarioDL.Direccion.Colonia = new ML.Colonia();
+                                usuarioDL.Direccion.Colonia.Nombre = obj.NombreColonia;
+                                usuarioDL.Direccion.Colonia.CodigoPostal = obj.CodigoPostal;
+                                usuarioDL.Direccion.Colonia.Municipio = new ML.Municipio();
+                                usuarioDL.Direccion.Colonia.Municipio.Nombre = obj.NombreMunicipio;
+                                usuarioDL.Direccion.Colonia.Municipio.Estado = new ML.Estado();
+                                usuarioDL.Direccion.Colonia.Municipio.Estado.Nombre = obj.NombreEstado;
+                                result.Objects.Add(usuarioDL);
+                            }
+                            result.Correct = true;
+                        }
+                        else
+                        {
+                            result.Correct = false;
+                            result.ErrorMessage = "No se encontraron Usuarios";
+                        }
+                    }
+                    else
+                    {
+                        if (IdRol == 0)
+                        {
+                            if (queryBA != null && queryBA.ToList().Count() > 0)
+                            {
+                                foreach (var obj in queryBA)
+                                {
+                                    ML.Usuario usuarioDL = new ML.Usuario();
+                                    usuarioDL.IdUsuario = obj.IdUsuario;
+                                    usuarioDL.Nombre = obj.Nombre;
+                                    usuarioDL.UserName = obj.UserName;
+                                    usuarioDL.ApellidoMaterno = obj.ApellidoMaterno;
+                                    usuarioDL.ApellidoPaterno = obj.ApellidoPaterno;
+                                    usuarioDL.Email = obj.Email;
+                                    usuarioDL.Password = obj.Password;
+                                    usuarioDL.FechaNacimiento = obj.FechaNacimiento.ToString("dd-MM-yyyy");
+                                    usuarioDL.Sexo = obj.Sexo;
+                                    usuarioDL.Telefono = obj.Telefono;
+                                    usuarioDL.Celular = obj.Celular;
+                                    usuarioDL.Estatus = obj.Estatus;
+                                    usuarioDL.CURP = obj.CURP;
+                                    usuarioDL.Imagen = obj.Imagen;
+                                    usuarioDL.Rol = new ML.Rol();
+                                    usuarioDL.Rol.IdRol = obj.IdRol;
+                                    usuarioDL.Rol.Nombre = obj.NombreRol;
+                                    usuarioDL.Direccion = new ML.Direccion();
+                                    usuarioDL.Direccion.Calle = obj.Calle;
+                                    usuarioDL.Direccion.NumeroExterior = obj.NumeroExterior;
+                                    usuarioDL.Direccion.NumeroInterior = obj.NumeroInterior;
+                                    usuarioDL.Direccion.Colonia = new ML.Colonia();
+                                    usuarioDL.Direccion.Colonia.Nombre = obj.NombreColonia;
+                                    usuarioDL.Direccion.Colonia.CodigoPostal = obj.CodigoPostal;
+                                    usuarioDL.Direccion.Colonia.Municipio = new ML.Municipio();
+                                    usuarioDL.Direccion.Colonia.Municipio.Nombre = obj.NombreMunicipio;
+                                    usuarioDL.Direccion.Colonia.Municipio.Estado = new ML.Estado();
+                                    usuarioDL.Direccion.Colonia.Municipio.Estado.Nombre = obj.NombreEstado;
+                                    result.Objects.Add(usuarioDL);
+                                }
+                                result.Correct = true;
+                            }
+                            else
+                            {
+                                result.Correct = false;
+                                result.ErrorMessage = "No se encontraron Usuarios";
+                            }
+                        }
+                        else
+                        {
+                            if (queryBARol != null && queryBARol.ToList().Count() > 0)
+                            {
+                                foreach (var obj in queryBARol)
+                                {
+                                    ML.Usuario usuarioDL = new ML.Usuario();
+                                    usuarioDL.IdUsuario = obj.IdUsuario;
+                                    usuarioDL.Nombre = obj.Nombre;
+                                    usuarioDL.UserName = obj.UserName;
+                                    usuarioDL.ApellidoMaterno = obj.ApellidoMaterno;
+                                    usuarioDL.ApellidoPaterno = obj.ApellidoPaterno;
+                                    usuarioDL.Email = obj.Email;
+                                    usuarioDL.Password = obj.Password;
+                                    usuarioDL.FechaNacimiento = obj.FechaNacimiento.ToString("dd-MM-yyyy");
+                                    usuarioDL.Sexo = obj.Sexo;
+                                    usuarioDL.Telefono = obj.Telefono;
+                                    usuarioDL.Celular = obj.Celular;
+                                    usuarioDL.Estatus = obj.Estatus;
+                                    usuarioDL.CURP = obj.CURP;
+                                    usuarioDL.Imagen = obj.Imagen;
+                                    usuarioDL.Rol = new ML.Rol();
+                                    usuarioDL.Rol.IdRol = obj.IdRol;
+                                    usuarioDL.Rol.Nombre = obj.NombreRol;
+                                    usuarioDL.Direccion = new ML.Direccion();
+                                    usuarioDL.Direccion.Calle = obj.Calle;
+                                    usuarioDL.Direccion.NumeroExterior = obj.NumeroExterior;
+                                    usuarioDL.Direccion.NumeroInterior = obj.NumeroInterior;
+                                    usuarioDL.Direccion.Colonia = new ML.Colonia();
+                                    usuarioDL.Direccion.Colonia.Nombre = obj.NombreColonia;
+                                    usuarioDL.Direccion.Colonia.CodigoPostal = obj.CodigoPostal;
+                                    usuarioDL.Direccion.Colonia.Municipio = new ML.Municipio();
+                                    usuarioDL.Direccion.Colonia.Municipio.Nombre = obj.NombreMunicipio;
+                                    usuarioDL.Direccion.Colonia.Municipio.Estado = new ML.Estado();
+                                    usuarioDL.Direccion.Colonia.Municipio.Estado.Nombre = obj.NombreEstado;
+                                    result.Objects.Add(usuarioDL);
+                                }
+                                result.Correct = true;
+                            }
+                            else
+                            {
+                                result.Correct = false;
+                                result.ErrorMessage = "No se encontraron Usuarios";
+                            }
+                        }
                     }
                 }
             }

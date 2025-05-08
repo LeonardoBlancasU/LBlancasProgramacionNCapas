@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
 using System.IO;
@@ -14,13 +15,16 @@ namespace PL_MVC.Controllers
         public ActionResult GetAll()
         {
             ML.Usuario usuario = new ML.Usuario();
+            usuario.Rol = new ML.Rol();
+            
             ML.Result result = BL.Usuario.GetAllEFLQ();
             if (result.Correct)
             {
                 usuario.Usuarios = result.Objects;
             }
             usuario.Direccion = new ML.Direccion();
-            
+            ML.Result resultRoles = BL.Rol.GetAllEFLQ();
+            usuario.Rol.Roles = resultRoles.Correct ? resultRoles.Objects : new List<object>();
             return View(usuario);
         }
         [HttpGet]

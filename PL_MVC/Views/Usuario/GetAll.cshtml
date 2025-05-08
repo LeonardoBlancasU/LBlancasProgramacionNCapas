@@ -7,135 +7,171 @@
         <div class="col-12 col-md-6 col-lg-4 mb-3">
             @Html.ActionLink("+", "Formulario", "Usuario", new { @class = "btn btn-success" })
         </div>
-    </div>
-
-    <div class="row">
         <div class="col-12 col-md-6 col-lg-4 mb-3">
-            @if (Model.Usuarios != null)
-            {
-                <table class="table table-hover table-responsive">
-                    <thead>
-                        <tr>
-                            <td> Estatus </td>
-                            <td> Editar </td>
-                            <td> Nombre de Usuario </td>
-                            <td> Nombre </td>
-                            <td> Direccion </td>
-                            <td> Email </td>
-                            <td> Password </td>
-                            <td> Fecha de Nacimiento </td>
-                            <td> Sexo </td>
-                            <td> Telefono </td>
-                            <td> Celular </td>
-
-                            <td> CURP </td>
-                            <td> Imagen </td>
-                            <td> Rol </td>
-                            <td> Eliminar </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (ML.Usuario usuario in Model.Usuarios)
-                        {
-                            <tr>
-                                <input type="hidden" name="IdUsuario" value="@usuario.IdUsuario" />
-                                <td>
-                                    <span id="lblEstatus_@usuario.IdUsuario">@usuario.Estatus</span>
-                                    <div class="form-check form-switch">
-                                        <input type="checkbox"
-                                               class="form-check-input"
-                                               role="switch"
-                                               id="SwitchEstatus_@usuario.IdUsuario"
-                                               @(usuario.Estatus ? "checked" : "")
-                                               onchange="UpdateEstatus(@usuario.IdUsuario, this.checked)" />
-                                    </div>
-                                </td>
-                                <td>@Html.ActionLink("Editar", "Formulario", "Usuario", new { IdUsuario = usuario.IdUsuario }, new { @class = "btn btn-warning" })</td>
-
-                                <td>@usuario.UserName</td>
-                                <td>@usuario.Nombre @usuario.ApellidoPaterno @usuario.ApellidoMaterno</td>
-                                <td>
-                                    @if (usuario.Direccion.Calle != "" || usuario.Direccion.NumeroInterior != "" || usuario.Direccion.NumeroExterior != ""
-                                   || usuario.Direccion.Colonia.Nombre != "" || usuario.Direccion.Colonia.CodigoPostal != ""
-                                   || usuario.Direccion.Colonia.Municipio.Nombre != "" || usuario.Direccion.Colonia.Municipio.Estado.Nombre != "")
-                                    {
-                                        @usuario.Direccion.Calle <i>,</i>
-                                        @usuario.Direccion.NumeroExterior <i>,</i>
-                                        @usuario.Direccion.NumeroInterior <i>,</i>
-                                        @usuario.Direccion.Colonia.Nombre <i>,</i>
-                                        @usuario.Direccion.Colonia.CodigoPostal <i>,</i>
-                                        @usuario.Direccion.Colonia.Municipio.Nombre <i>,</i>
-                                        @usuario.Direccion.Colonia.Municipio.Estado.Nombre <i>.</i>}
-                                    else
-                                    {
-                                        <i>No tiene Direccion Completa</i>
-                                    }
-                                </td>
-                                <td>@usuario.Email</td>
-                                <td>@usuario.Password</td>
-                                <td>@usuario.FechaNacimiento</td>
-                                <td>@usuario.Sexo</td>
-                                <td>@usuario.Telefono</td>
-                                <td>@usuario.Celular</td>
-
-                                <td>@usuario.CURP</td>
-                                <td>
-                                    @if (usuario.Imagen != null)
-                                    {
-                                        <img id="imgUsuario" src="data:image/*;base64, @Convert.ToBase64String(usuario.Imagen)" width="50" height="50" />
-                                    }
-                                    else
-                                    {
-
-                                        <img id="imgUsuario" src="@Url.Content("~/Img/Default.png")"
-                                             width="50" height="50" />
-                                    }
-                                </td>
-                                <td>@usuario.Rol.Nombre</td>
-                                <td>
-                                    <a href="@Url.Action("Delete", "Usuario", new { IdUsuario = usuario.IdUsuario })" onclick="return confirm('Estas seguro que quieres eliminar a este usuario?')">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-            else
-            {
-                <div class="alert alert-danger" role="alert">
-                    <i class="bi bi-question-octagon">A simple danger alert-check it out!</i>
-                </div>
-            }
-            <span id="lblEstatusUpdate"></span>
-            @if (TempData["Success"] != null)
-            {
-                <div class="alert alert-success">
-                    <i class="bi bi-check-all"> @TempData["Success"] </i>
-                </div>
-            }
-            @if (TempData["Error"] != null)
-            {
-                <div class="alert alert-danger">
-                    <i class="bi bi-x-square"> @TempData["Error"] </i>
-
-                </div>
-            }
-            @if (TempData["Agregado"] != null)
-            {
-                <div class="alert alert-success">
-                    <i class="bi bi-floppy"> @TempData["Agregado"] </i>
-
-                </div>
-            }
+            <button class="btn btn-primary" onclick="BusquedaAbierta()">Busqueda Abierta</button>
         </div>
     </div>
-</div>
+    @using (Html.BeginForm("GetAll", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data", @class = "needs-validation"}))
+    {
+        <div class="row">
+            <table class="table table-hover table-responsive" style="display:none" id="tablaBusquedaAbierta">
+                <thead>
+                    <tr>
+                        <td>Nombre</td>
+                        <td>Apellido Paterno</td>
+                        <td>Apellido Materno</td>
+                        <td>Rol</td>
+                        <td>Buscar</td>
+                        <td>Limpiar</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", id = "txtNombre" })</td>
+                        <td>@Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", id = "txtApellidoPaterno" })</td>
+                        <td>@Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", id = "txtApellidoMaterno" })</td>
+                        <td>@Html.DropDownListFor(model => model.Rol.IdRol, new SelectList(Model.Rol.Roles, "IdRol", "Nombre"), "Selecciona un Rol", new { @class = "form-control", id = "ddlRol" })</td>
+                        <td>
+                            <button type="submit" class="btn btn-outline-info" id="btnBuscar"><i class="bi bi-search"></i></button>
+                            @*<a href="@Url.Action("GetAll", "Usuario", new { Model.Nombre, Model.ApellidoPaterno, Model.ApellidoMaterno, Model.Rol.IdRol })">
+                                <i class="bi bi-search"></i>
+                            </a>*@
+                        </td>
+                        <td><button type="reset" class="btn btn-outline-secondary" id="btnLimpiar" onclick="LimpiarCampos()"><i class="bi bi-arrow-clockwise"></i></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                @if (Model.Usuarios != null)
+                {
+                    <table class="table table-hover table-responsive">
+                        <thead>
+                            <tr>
+                                <td> Estatus </td>
+                                <td> Editar </td>
+                                <td> Nombre de Usuario </td>
+                                <td> Nombre </td>
+                                <td> Direccion </td>
+                                <td> Email </td>
+                                <td> Password </td>
+                                <td> Fecha de Nacimiento </td>
+                                <td> Sexo </td>
+                                <td> Telefono </td>
+                                <td> Celular </td>
+
+                                <td> CURP </td>
+                                <td> Imagen </td>
+                                <td> Rol </td>
+                                <td> Eliminar </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (ML.Usuario usuario in Model.Usuarios)
+                            {
+                                <tr>
+                                    <input type="hidden" name="IdUsuario" value="@usuario.IdUsuario" />
+                                    <td>
+                                        <span id="lblEstatus_@usuario.IdUsuario">@usuario.Estatus</span>
+                                        <div class="form-check form-switch">
+                                            <input type="checkbox"
+                                                   class="form-check-input"
+                                                   role="switch"
+                                                   id="SwitchEstatus_@usuario.IdUsuario"
+                                                   @(usuario.Estatus ? "checked" : "")
+                                                   onchange="UpdateEstatus(@usuario.IdUsuario, this.checked)" />
+                                        </div>
+                                    </td>
+                                    <td>@Html.ActionLink("Editar", "Formulario", "Usuario", new { IdUsuario = usuario.IdUsuario }, new { @class = "btn btn-warning" })</td>
+
+                                    <td>@usuario.UserName</td>
+                                    <td>@usuario.Nombre @usuario.ApellidoPaterno @usuario.ApellidoMaterno</td>
+                                    <td>
+                                        @if (usuario.Direccion.Calle != "" || usuario.Direccion.NumeroInterior != "" || usuario.Direccion.NumeroExterior != ""
+                                       || usuario.Direccion.Colonia.Nombre != "" || usuario.Direccion.Colonia.CodigoPostal != ""
+                                       || usuario.Direccion.Colonia.Municipio.Nombre != "" || usuario.Direccion.Colonia.Municipio.Estado.Nombre != "")
+                                        {
+                                            @usuario.Direccion.Calle <i>,</i>
+                                            @usuario.Direccion.NumeroExterior <i>,</i>
+                                            @usuario.Direccion.NumeroInterior <i>,</i>
+                                            @usuario.Direccion.Colonia.Nombre <i>,</i>
+                                            @usuario.Direccion.Colonia.CodigoPostal <i>,</i>
+                                            @usuario.Direccion.Colonia.Municipio.Nombre <i>,</i>
+                                            @usuario.Direccion.Colonia.Municipio.Estado.Nombre <i>.</i>}
+                                        else
+                                        {
+                                            <i>No tiene Direccion Completa</i>
+                                        }
+                                    </td>
+                                    <td>@usuario.Email</td>
+                                    <td>@usuario.Password</td>
+                                    <td>@usuario.FechaNacimiento</td>
+                                    <td>@usuario.Sexo</td>
+                                    <td>@usuario.Telefono</td>
+                                    <td>@usuario.Celular</td>
+
+                                    <td>@usuario.CURP</td>
+                                    <td>
+                                        @if (usuario.Imagen != null)
+                                        {
+                                            <img id="imgUsuario" src="data:image/*;base64, @Convert.ToBase64String(usuario.Imagen)" width="50" height="50" />
+                                        }
+                                        else
+                                        {
+
+                                            <img id="imgUsuario" src="@Url.Content("~/Img/Default.png")"
+                                                 width="50" height="50" />
+                                        }
+                                    </td>
+                                    <td>@usuario.Rol.Nombre</td>
+                                    <td>
+                                        <a href="@Url.Action("Delete", "Usuario", new { IdUsuario = usuario.IdUsuario })" onclick="return confirm('Estas seguro que quieres eliminar a este usuario?')">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <i class="bi bi-question-octagon">A simple danger alert-check it out!</i>
+                    </div>
+                }
+                <span id="lblEstatusUpdate"></span>
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success">
+                        <i class="bi bi-check-all"> @TempData["Success"] </i>
+                    </div>
+                }
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger">
+                        <i class="bi bi-x-square"> @TempData["Error"] </i>
+
+                    </div>
+                }
+                @if (TempData["Agregado"] != null)
+                {
+                    <div class="alert alert-success">
+                        <i class="bi bi-floppy"> @TempData["Agregado"] </i>
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 <h2>GetAll</h2>
 
 <script src="~/Scripts/jquery-3.4.1.js">
 </script>
 <script src="~/Scripts/Usuario/GetAll.js">
+</script>
+<script src="~/Scripts/Usuario/BusquedaAbierta.js">
 </script>
 
