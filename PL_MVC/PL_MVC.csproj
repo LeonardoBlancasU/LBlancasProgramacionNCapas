@@ -247,6 +247,7 @@
     <Content Include="obj\Debug\PL_MVC.csproj.AssemblyReference.cache" />
     <Content Include="obj\Debug\PL_MVC.csproj.CoreCompileInputs.cache" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\BusquedaAbierta.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />

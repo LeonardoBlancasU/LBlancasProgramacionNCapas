@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace BL
 {
@@ -52,6 +53,43 @@ namespace BL
                 result.ErrorMessage = ex.Message;
             }
 
+            return result;
+        }
+        public static ML.Result GetAllEFSP()
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.LBlancasProgramacionNCapasEntities context = new DL_EF.LBlancasProgramacionNCapasEntities())
+                {
+                    var rolesDB = context.RolGetAll().ToList();
+                    if (rolesDB.Count > 0)
+                    {
+                        result.Objects = new List<object>();
+                        foreach (var rolDB in rolesDB)
+                        {
+                            ML.Rol rol = new ML.Rol();
+
+                            rol.IdRol = rolDB.IdRol;
+                            rol.Nombre = rolDB.Nombre;
+                            result.Objects.Add(rol);
+                        }
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No se encontraron roles";
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
             return result;
         }
     }

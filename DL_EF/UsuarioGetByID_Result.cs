@@ -33,11 +33,11 @@ namespace DL_EF
         public string NumeroExterior { get; set; }
         public string NumeroInterior { get; set; }
         public Nullable<int> IdColonia { get; set; }
-        public string Nombre1 { get; set; }
+        public string NombreColonia { get; set; }
         public string CodigoPostal { get; set; }
         public Nullable<int> IdMunicipio { get; set; }
-        public string Nombre2 { get; set; }
+        public string NombreMunicipio { get; set; }
         public Nullable<byte> IdEstado { get; set; }
-        public string Nombre3 { get; set; }
+        public string NombreEstado { get; set; }
     }
 }

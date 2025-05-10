@@ -10,19 +10,43 @@ namespace PL_MVC.Controllers
 {
     public class UsuarioController : Controller
     {
-        // GET: Usuario
+        [HttpGet]
         public ActionResult GetAll()
         {
             ML.Usuario usuario = new ML.Usuario();
-            ML.Result result = BL.Usuario.GetAll();
+            usuario.Rol = new ML.Rol();
+            usuario.Direccion = new ML.Direccion();
+            
+            usuario.Nombre = "";
+            usuario.ApellidoMaterno = "";
+            usuario.ApellidoPaterno = "";
+            usuario.Rol.IdRol = 0;
+            ML.Result result = BL.Usuario.GetAllEFSP(usuario);
             if (result.Correct)
             {
                 usuario.Usuarios = result.Objects;
             }
-            usuario.Direccion = new ML.Direccion();
-            
+            ML.Result resultRoles = BL.Rol.GetAllEFSP();
+            usuario.Rol.Roles = resultRoles.Objects;
             return View(usuario);
         }
+        
+        [HttpPost]
+        public ActionResult GetAll(ML.Usuario usuario)
+        {
+            usuario.Nombre = usuario.Nombre == null ? "" : usuario.Nombre;
+            usuario.ApellidoMaterno = usuario.ApellidoMaterno == null ? "" : usuario.ApellidoMaterno;
+            usuario.ApellidoPaterno = usuario.ApellidoPaterno == null ? "" : usuario.ApellidoPaterno;
+            ML.Result result = BL.Usuario.GetAllEFSP(usuario);
+            if (result.Correct)
+            {
+                usuario.Usuarios = result.Objects;
+            }
+            ML.Result resultRoles = BL.Rol.GetAll();
+            usuario.Rol.Roles = resultRoles.Objects;
+            return View(usuario);
+        }
+
         [HttpGet]
         public ActionResult Formulario(int? IdUsuario)
         {
