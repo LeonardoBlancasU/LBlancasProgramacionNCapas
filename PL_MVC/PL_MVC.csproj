@@ -184,6 +184,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="archivos\datosprueba.txt" />
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\BL.dll" />
     <Content Include="bin\EntityFramework.dll" />
