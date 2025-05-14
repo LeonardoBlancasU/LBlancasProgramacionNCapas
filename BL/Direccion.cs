@@ -101,7 +101,7 @@ namespace BL
         public static ML.Result GetById(ML.Usuario usuario)
         {
             ML.Result result = new ML.Result();
-            int IdDireccion = usuario.Direccion.IdDireccion;
+            int? IdDireccion = usuario.Direccion.IdDireccion;
 
             try
             {
@@ -339,7 +339,7 @@ namespace BL
                                  select direccionDB).SingleOrDefault();
                     if (query != null)
                     {
-                        query.IdDireccion = usuario.Direccion.IdDireccion;
+                        query.IdDireccion = usuario.Direccion.IdDireccion.Value;
                         query.Calle = usuario.Direccion.Calle;
                         query.NumeroExterior = usuario.Direccion.NumeroExterior;
                         query.NumeroInterior = usuario.Direccion.NumeroInterior;

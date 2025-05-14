@@ -13,6 +13,7 @@ using System.Data.Entity.Core.Objects;
 using ML;
 using System.Globalization;
 using DL_EF;
+using System.IO;
 
 
 
@@ -829,7 +830,7 @@ namespace BL
                         query.Celular = usuario.Celular;
                         query.Estatus = usuario.Estatus;
                         query.Imagen = usuario.Imagen;
-                        query.Direccion.IdDireccion = usuario.Direccion.IdDireccion;
+                        query.Direccion.IdDireccion = usuario.Direccion.IdDireccion.Value;
                         int rowsAffected = context.SaveChanges();
                         if (rowsAffected > 0)
                         {

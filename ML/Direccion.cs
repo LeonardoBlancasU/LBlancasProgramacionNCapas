@@ -9,7 +9,7 @@ namespace ML
 {
     public class Direccion
     {
-        public int IdDireccion {  get; set; }
+        public int? IdDireccion { get; set; }
         [Required(ErrorMessage ="Este Campo es requerido")]
         [Display(Name ="Calle")]
         public string Calle { get; set; }

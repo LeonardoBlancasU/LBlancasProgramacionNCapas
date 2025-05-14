@@ -11,6 +11,7 @@ namespace PL
     {
         static void Main(string[] args)
         {
+            BL.CargaMasiva.LeerArchivo();
         }
     }
 }

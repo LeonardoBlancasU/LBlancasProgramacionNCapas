@@ -169,6 +169,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CargaMasivaController.cs" />
     <Compile Include="Controllers\DropDownListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -301,6 +302,7 @@
     <Content Include="Views\Shared\Mensaje.cshtml" />
     <Content Include="Views\Usuario\DropDownList.cshtml" />
     <Content Include="Views\DropDownList\DropDownList.cshtml" />
+    <Content Include="Views\CargaMasiva\GetAll.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
