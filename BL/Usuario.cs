@@ -574,7 +574,7 @@ namespace BL
                     else
                     {
                         result.Correct = false;
-                        result.ErrorMessage = "Mo se pudo agregar el usuario";
+                        result.ErrorMessage = "No se pudo agregar el usuario";
                     }
                 }
             }
@@ -645,14 +645,14 @@ namespace BL
             }
             return result;
         }
-        public static ML.Result GetAllEFSP()
+        public static ML.Result GetAllEFSP(string Nombre, string ApellidoPaterno, string ApellidoMaterno, int IdRol)
         {
             ML.Result result = new ML.Result();
             try
             {
                 using (DL_EF.LBlancasProgramacionNCapasEntities context = new DL_EF.LBlancasProgramacionNCapasEntities())
                 {
-                    var listaUsuarios = context.UsuarioGetAll().ToList();
+                    var listaUsuarios = context.UsuarioGetAll(Nombre, ApellidoPaterno, ApellidoMaterno, IdRol).ToList();
                     if (listaUsuarios.Count > 0)
                     {
                         result.Objects = new List<object>();
@@ -1309,6 +1309,64 @@ namespace BL
             return result;
         }
 
+        public static ML.Result GetAllEFSPBA(string Nombre, string ApellidoPaterno, string ApellidoMaterno, int IdRol)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.LBlancasProgramacionNCapasEntities context = new DL_EF.LBlancasProgramacionNCapasEntities())
+                {
+                    var listaUsuarios = context.UsuarioGetAll(Nombre, ApellidoPaterno, ApellidoMaterno, IdRol).ToList();
+                    if (listaUsuarios.Count > 0)
+                    {
+                        result.Objects = new List<object>();
+                        foreach (var usuarioDB in listaUsuarios)
+                        {
+                            ML.Usuario usuario = new ML.Usuario();
+                            usuario.IdUsuario = usuarioDB.IdUsuario;
+                            usuario.Nombre = usuarioDB.Nombre;
+                            usuario.UserName = usuarioDB.UserName;
+                            usuario.Email = usuarioDB.Email;
+                            usuario.Password = usuarioDB.Password;
+                            usuario.FechaNacimiento = usuarioDB.FechaNacimiento.Value.ToString("dd-MM-yyyy");
+                            usuario.Sexo = usuarioDB.Sexo;
+                            usuario.Telefono = usuarioDB.Telefono;
+                            usuario.Celular = usuarioDB.Celular;
+                            usuario.Estatus = usuarioDB.Estatus;
+                            usuario.CURP = usuarioDB.CURP;
+                            usuario.Imagen = usuarioDB.Imagen;
+                            usuario.Rol = new ML.Rol();
+                            usuario.Rol.Nombre = usuarioDB.NombreRol;
+                            usuario.Direccion = new ML.Direccion();
+                            usuario.Direccion.Calle = usuarioDB.Calle;
+                            usuario.Direccion.NumeroExterior = usuarioDB.NumeroExterior;
+                            usuario.Direccion.NumeroInterior = usuarioDB.NumeroInterior;
+                            usuario.Direccion.Colonia = new ML.Colonia();
+                            usuario.Direccion.Colonia.Nombre = usuarioDB.NombreColonia;
+                            usuario.Direccion.Colonia.CodigoPostal = usuarioDB.CodigoPostal;
+                            usuario.Direccion.Colonia.Municipio = new ML.Municipio();
+                            usuario.Direccion.Colonia.Municipio.Nombre = usuarioDB.NombreMunicipio;
+                            usuario.Direccion.Colonia.Municipio.Estado = new ML.Estado();
+                            usuario.Direccion.Colonia.Municipio.Estado.Nombre = usuarioDB.NombreEstado;
+                            result.Objects.Add(usuario);
+                        }
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = true;
+                        result.ErrorMessage = "No se encontraron Usuarios";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
         public static ML.Result GetAllEFLQBA(string Nombre, string ApellidoPaterno, string ApellidoMaterno, int IdRol)
         {
             ML.Result result = new ML.Result();
@@ -1555,6 +1613,35 @@ namespace BL
                                 result.ErrorMessage = "No se encontraron Usuarios";
                             }
                         }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
+        
+        public static ML.Result AddWidthCURP(ML.Usuario usuario)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using(DL_EF.LBlancasProgramacionNCapasEntities context = new DL_EF.LBlancasProgramacionNCapasEntities())
+                {
+                    var rowsAffeccted = context.UsuarioAddWidthCURP(usuario.Nombre, usuario.Rol.IdRol, usuario.UserName, usuario.ApellidoPaterno, usuario.ApellidoMaterno, usuario.Email, usuario.Password, DateTime.Parse(usuario.FechaNacimiento).ToString("dd-MM-yyyy"), usuario.Sexo, usuario.Telefono, usuario.Celular, usuario.Estatus, usuario.Imagen, usuario.Direccion.IdDireccion);
+                    if(rowsAffeccted >0)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No se pudo insertar al usuario."; 
                     }
                 }
             }

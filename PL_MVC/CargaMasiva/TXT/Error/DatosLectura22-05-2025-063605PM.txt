@@ -1,0 +1,3 @@
+No se agregaron los siguientes usuarios:
+No se pudo insertar el usuario Jose Galeana Rincon1 debido a que: Para el apellido materno solo se permiten Letras, además cada uno debe iniciar con Mayuscula.
+

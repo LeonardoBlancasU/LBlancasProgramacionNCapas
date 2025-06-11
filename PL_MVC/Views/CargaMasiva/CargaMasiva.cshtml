@@ -1,0 +1,132 @@
+﻿@model ML.Usuario 
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CARGA MASIVA</h2>
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col-sm-12">
+            <h5>Favor de Presionar El Boton para Realizar una Carga Masiva a la Base de Datos</h5>
+            <hr />
+        </div>
+    </div>
+    <div class="row mb-3">
+
+        <div class="col-12">
+            <a class="btn btn-outline-info w-100" data-bs-toggle="collapse" href="#formCargaMasiva" role="button" aria-expanded="false" aria-controls="formCargaMasiva">
+                Carga Masiva
+            </a>
+        </div>
+    </div>
+    <div class="collapse" id="formCargaMasiva">
+        <div class="card card-body">
+            @using (Html.BeginForm("CargaMasiva", "CargaMasiva", FormMethod.Post, new { enctype = "multipart/form-data", @class = "needs-validation", novalidate = "novalidate" }))
+            {
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h6>Favor de Elegir el Tipo de Archivo a Importar</h6>
+                        <hr />
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-2">
+                        <input class="form-check-input" type="radio" name="rdobtnCargaMasiva" value="TXT" />
+                        <label class="form-check-label" for="rdobtnCargaMasiva">TXT</label>
+                    </div>
+                    <br />
+                    <div class="col-2">
+                        <input class="form-check-input" type="radio" name="rdobtnCargaMasiva" value="EXCEL" />
+                        <label class="form-check-label" type="radio" name="rdobtnCargaMasiva">EXCEL</label>
+                    </div>
+                </div><br /><div class="row">
+                    <div class="col-6">
+                        <label class="form-check-label">Cargar Archivo</label>
+                    </div>
+                </div><div class="row">
+
+                    <div class="input-group row ">
+                        <input class="form-control col-4 mx-2" type="file" name="inputCargaMasiva" id="inputCargaMasiva" disabled onchange="ValidarArchivo(event)" />
+                        <br />
+                        @if (Session["RutaTXT"] == null && Session["RutaEXCEL"] == null)
+                        {
+                            <div class="col-4">
+                                <button class="btn btn-dark" type="submit" name="accion" value="validar" id="btnValidar" disabled>Validar</button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-4">
+                                <button class="btn btn-success" type="submit" name="accion" value="cargar" id="btnCargar">Cargar</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+
+
+
+            }
+        </div>
+    </div>
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            <i class="bi bi-check-all"> @TempData["Success"] </i>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            <i class="bi bi-x"> @TempData["Error"] </i>
+        </div>
+    }
+    @if (Model.Correctos.Count > 0 || Model.Errores.Count > 0)
+    {
+        if (Model.Errores.Count > 0)
+        {
+            <div class="col-12 d-flex">
+                @Html.ActionLink(" Descargar Errores", "DescargarTXT", "CargaMasiva", new { @class = "bi bi-download btn btn-warning" })
+            </div>
+            <br />
+        }
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <td style="text-align: center; width: 10%;"><b>Checked</b></td>
+                    <td style="width: 35%;"><b>Usuario</b></td>
+                    <td scope="col"><b>Errores</b></td>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                @foreach (var error in Model.Errores)
+                {
+                    string[] datos = error.ToString().Split('|');
+                    <tr class="table-danger">
+                        <td style="text-align: center;"> <i class="bi bi-x-circle"></i> </td>
+                        <td> @datos[0]</td>
+                        <td> @datos[1]</td>
+                    </tr>
+                }
+                @foreach (var correctos in Model.Correctos)
+                {
+                    string[] datos = correctos.ToString().Split('|');
+                    <tr class="table-success">
+                        <td style="text-align: center;"> <i class="bi bi-check-circle"></i> </td>
+                        <td> @datos[0]</td>
+                        <td> @datos[1]</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+   
+</div>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/CargaMasiva/CargaMasiva.js">
+</script>

@@ -1,0 +1,5 @@
+No se agregaron los siguientes usuarios:
+Jose Galeana Rincon | No se pudo insertar el usuario debido a: An error occurred while executing the command definition. See the inner exception for details.
+Gerardo Moreno Torrado | No se pudo insertar el usuario debido a: An error occurred while executing the command definition. See the inner exception for details.
+Martin Castillo Olivares | No se pudo insertar el usuario debido a: An error occurred while executing the command definition. See the inner exception for details.
+

@@ -80,6 +80,10 @@ namespace ML
 
         public List<object> Usuarios { get; set; }
 
+        public List<object> Errores { get; set; }
+
+        public List<object> Correctos { get; set; }
+
         public ML.Rol Rol { get; set; }
 
         public string ImagenBase64 { get; set; }

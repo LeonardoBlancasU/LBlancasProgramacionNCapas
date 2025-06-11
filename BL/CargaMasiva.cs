@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -54,8 +55,7 @@ namespace BL
                         }
                         else
                         {
-
-                             NoInsertados = NoInsertados + $"No se pudo insertar el usuario {usuario.Nombre} {usuario.ApellidoPaterno} {usuario.ApellidoMaterno} debido a que: " + Errores;
+                            NoInsertados = NoInsertados + $"No se pudo insertar el usuario {usuario.Nombre} {usuario.ApellidoPaterno} {usuario.ApellidoMaterno} debido a que: " + Errores;
                         }
                     }    
                 }

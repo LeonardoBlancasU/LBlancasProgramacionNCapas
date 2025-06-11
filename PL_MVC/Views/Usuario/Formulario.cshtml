@@ -126,8 +126,8 @@
                 @Html.LabelFor(model => model.Sexo, new { @class = "form-label" })
                 <div class="input-group d-flex gap-3 mb-3 has-validation">
                     <span class="input-group-text bi bi-gender-neuter" id="basic-addon1"></span>
-                    @Html.RadioButtonFor(model => model.Sexo, "F", new { @onkeypress = "DesactivarEnter(event)" })  Femenino
-                    @Html.RadioButtonFor(model => model.Sexo, "M", new { @onkeypress = "DesactivarEnter(event)" })  Masculino
+                    @Html.RadioButtonFor(model => model.Sexo, "M", new { @onkeypress = "DesactivarEnter(event)" })  Mujer
+                    @Html.RadioButtonFor(model => model.Sexo, "H", new { @onkeypress = "DesactivarEnter(event)" })  Hombre
                 </div>
                 @Html.ValidationMessageFor(model => model.Sexo, "", new { @id = "lblErrorSexo", @class = "text-danger" })
             </div>

@@ -249,6 +249,7 @@
     <Content Include="obj\Debug\PL_MVC.csproj.AssemblyReference.cache" />
     <Content Include="obj\Debug\PL_MVC.csproj.CoreCompileInputs.cache" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\CargaMasiva\CargaMasiva.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -303,10 +304,15 @@
     <Content Include="Views\Usuario\DropDownList.cshtml" />
     <Content Include="Views\DropDownList\DropDownList.cshtml" />
     <Content Include="Views\CargaMasiva\GetAll.cshtml" />
+    <Content Include="Views\CargaMasiva\CargaMasiva.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="bin\roslyn\" />
+    <Folder Include="CargaMasiva\Excel\Error\" />
+    <Folder Include="CargaMasiva\Excel\Ok\" />
+    <Folder Include="CargaMasiva\TXT\Error\" />
+    <Folder Include="CargaMasiva\TXT\OK\" />
     <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <ItemGroup>

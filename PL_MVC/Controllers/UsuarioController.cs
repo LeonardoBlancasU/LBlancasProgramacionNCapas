@@ -16,7 +16,7 @@ namespace PL_MVC.Controllers
         {
             ML.Usuario usuario = new ML.Usuario();
             usuario.Rol = new ML.Rol();
-            
+
             ML.Result result = BL.Usuario.GetAllEFLQ();
             if (result.Correct)
             {
@@ -92,7 +92,7 @@ namespace PL_MVC.Controllers
                         {
                             usuario.Direccion.IdDireccion = (int)resultDireccion.Object;
 
-                            result = BL.Usuario.AddEFLQ(usuario);
+                            result = BL.Usuario.AddWidthCURP(usuario);
                             if (result.Correct)
                             {
                                 TempData["Agregado"] = "Usuario agregado correctamente.";
@@ -150,7 +150,7 @@ namespace PL_MVC.Controllers
                         }
                         else // Si ya tiene dirección, actualizarla
                         {
-                            ML.Result resultDireccion = BL.Direccion.UpdateEFLQ(usuario);
+                            ML.Result resultDireccion = BL.Direccion.UpdateEFSP(usuario);
                             if (!resultDireccion.Correct)
                             {
                                 TempData["Error"] = "Error al actualizar la dirección: " + resultDireccion.ErrorMessage;
@@ -159,7 +159,7 @@ namespace PL_MVC.Controllers
                         }
 
                         // Actualizar el usuario
-                        result = BL.Usuario.UpdateEFLQ(usuario);
+                        result = BL.Usuario.UpdateEFSP(usuario);
                         if (result.Correct)
                         {
                             TempData["Agregado"] = "Usuario actualizado correctamente.";
