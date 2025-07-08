@@ -103,6 +103,9 @@
     <Compile Include="UsuarioAll_Result.cs">
       <DependentUpon>LBlancasProgramacionNCapas.tt</DependentUpon>
     </Compile>
+    <Compile Include="UsuarioGetAllEF_Result.cs">
+      <DependentUpon>LBlancasProgramacionNCapas.tt</DependentUpon>
+    </Compile>
     <Compile Include="UsuarioGetAll_Result.cs">
       <DependentUpon>LBlancasProgramacionNCapas.tt</DependentUpon>
     </Compile>

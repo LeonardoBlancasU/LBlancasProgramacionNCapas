@@ -554,5 +554,19 @@ namespace DL_EF
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UsuarioAddWidthCURP", nombreParameter, idRolParameter, userNameParameter, apellidoPaternoParameter, apellidoMaternoParameter, emailParameter, passwordParameter, fechaNacimientoParameter, sexoParameter, telefonoParameter, celularParameter, estatusParameter, imagenParameter, idDireccionParameter);
         }
+    
+        public virtual int UsuarioDireccionDelete(Nullable<int> idUsuario)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UsuarioDireccionDelete", idUsuarioParameter);
+        }
+    
+        public virtual ObjectResult<UsuarioGetAllEF_Result> UsuarioGetAllEF()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetAllEF_Result>("UsuarioGetAllEF");
+        }
     }
 }
