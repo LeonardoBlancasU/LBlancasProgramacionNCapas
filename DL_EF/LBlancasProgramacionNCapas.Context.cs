@@ -135,7 +135,7 @@ namespace DL_EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteSP", idUsuarioParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> DireccionAdd(string calle, string numeroExterior, string numeroInterior, Nullable<int> idColonia, ObjectParameter idDireccion)
+        public virtual int DireccionAdd(string calle, string numeroExterior, string numeroInterior, Nullable<int> idColonia, ObjectParameter idDireccion)
         {
             var calleParameter = calle != null ?
                 new ObjectParameter("Calle", calle) :
@@ -153,7 +153,7 @@ namespace DL_EF
                 new ObjectParameter("IdColonia", idColonia) :
                 new ObjectParameter("IdColonia", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("DireccionAdd", calleParameter, numeroExteriorParameter, numeroInteriorParameter, idColoniaParameter, idDireccion);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DireccionAdd", calleParameter, numeroExteriorParameter, numeroInteriorParameter, idColoniaParameter, idDireccion);
         }
     
         public virtual int DireccionDelete(Nullable<int> idDireccion)
@@ -363,13 +363,13 @@ namespace DL_EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioAll_Result>("UsuarioAll");
         }
     
-        public virtual ObjectResult<Nullable<int>> UsuarioDelete(Nullable<int> idUsuario, ObjectParameter idDireccion)
+        public virtual int UsuarioDelete(Nullable<int> idUsuario, ObjectParameter idDireccion)
         {
             var idUsuarioParameter = idUsuario.HasValue ?
                 new ObjectParameter("IdUsuario", idUsuario) :
                 new ObjectParameter("IdUsuario", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("UsuarioDelete", idUsuarioParameter, idDireccion);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UsuarioDelete", idUsuarioParameter, idDireccion);
         }
     
         public virtual int Usuarios1()
@@ -451,6 +451,28 @@ namespace DL_EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UsuarioUpdate", idUsuarioParameter, nombreParameter, cURPParameter, idRolParameter, userNameParameter, apellidoPaternoParameter, apellidoMaternoParameter, emailParameter, passwordParameter, fechaNacimientoParameter, sexoParameter, telefonoParameter, celularParameter, estatusParameter, imagenParameter, idDireccionParameter);
         }
     
+        public virtual ObjectResult<UsuarioGetByID_Result> UsuarioGetByID(Nullable<int> idUsuario)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetByID_Result>("UsuarioGetByID", idUsuarioParameter);
+        }
+    
+        public virtual int UpdateUsuarioIdEstatus(Nullable<int> idUsuario, Nullable<bool> estatus)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(int));
+    
+            var estatusParameter = estatus.HasValue ?
+                new ObjectParameter("Estatus", estatus) :
+                new ObjectParameter("Estatus", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateUsuarioIdEstatus", idUsuarioParameter, estatusParameter);
+        }
+    
         public virtual ObjectResult<UsuarioGetAll_Result> UsuarioGetAll(string nombre, string apellidoPaterno, string apellidoMaterno, Nullable<int> idRol)
         {
             var nombreParameter = nombre != null ?
@@ -472,26 +494,79 @@ namespace DL_EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetAll_Result>("UsuarioGetAll", nombreParameter, apellidoPaternoParameter, apellidoMaternoParameter, idRolParameter);
         }
     
-        public virtual int UpdateUsuarioIdEstatus(Nullable<int> idUsuario, Nullable<bool> estatus)
+        public virtual int UsuarioAddWidthCURP(string nombre, Nullable<byte> idRol, string userName, string apellidoPaterno, string apellidoMaterno, string email, string password, string fechaNacimiento, string sexo, string telefono, string celular, Nullable<bool> estatus, byte[] imagen, Nullable<int> idDireccion)
         {
-            var idUsuarioParameter = idUsuario.HasValue ?
-                new ObjectParameter("IdUsuario", idUsuario) :
-                new ObjectParameter("IdUsuario", typeof(int));
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var idRolParameter = idRol.HasValue ?
+                new ObjectParameter("IdRol", idRol) :
+                new ObjectParameter("IdRol", typeof(byte));
+    
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var apellidoPaternoParameter = apellidoPaterno != null ?
+                new ObjectParameter("ApellidoPaterno", apellidoPaterno) :
+                new ObjectParameter("ApellidoPaterno", typeof(string));
+    
+            var apellidoMaternoParameter = apellidoMaterno != null ?
+                new ObjectParameter("ApellidoMaterno", apellidoMaterno) :
+                new ObjectParameter("ApellidoMaterno", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("Password", password) :
+                new ObjectParameter("Password", typeof(string));
+    
+            var fechaNacimientoParameter = fechaNacimiento != null ?
+                new ObjectParameter("FechaNacimiento", fechaNacimiento) :
+                new ObjectParameter("FechaNacimiento", typeof(string));
+    
+            var sexoParameter = sexo != null ?
+                new ObjectParameter("Sexo", sexo) :
+                new ObjectParameter("Sexo", typeof(string));
+    
+            var telefonoParameter = telefono != null ?
+                new ObjectParameter("Telefono", telefono) :
+                new ObjectParameter("Telefono", typeof(string));
+    
+            var celularParameter = celular != null ?
+                new ObjectParameter("Celular", celular) :
+                new ObjectParameter("Celular", typeof(string));
     
             var estatusParameter = estatus.HasValue ?
                 new ObjectParameter("Estatus", estatus) :
                 new ObjectParameter("Estatus", typeof(bool));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateUsuarioIdEstatus", idUsuarioParameter, estatusParameter);
+            var imagenParameter = imagen != null ?
+                new ObjectParameter("Imagen", imagen) :
+                new ObjectParameter("Imagen", typeof(byte[]));
+    
+            var idDireccionParameter = idDireccion.HasValue ?
+                new ObjectParameter("IdDireccion", idDireccion) :
+                new ObjectParameter("IdDireccion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UsuarioAddWidthCURP", nombreParameter, idRolParameter, userNameParameter, apellidoPaternoParameter, apellidoMaternoParameter, emailParameter, passwordParameter, fechaNacimientoParameter, sexoParameter, telefonoParameter, celularParameter, estatusParameter, imagenParameter, idDireccionParameter);
         }
     
-        public virtual ObjectResult<UsuarioGetByID_Result> UsuarioGetByID(Nullable<int> idUsuario)
+        public virtual int UsuarioDireccionDelete(Nullable<int> idUsuario)
         {
             var idUsuarioParameter = idUsuario.HasValue ?
                 new ObjectParameter("IdUsuario", idUsuario) :
                 new ObjectParameter("IdUsuario", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetByID_Result>("UsuarioGetByID", idUsuarioParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UsuarioDireccionDelete", idUsuarioParameter);
+        }
+    
+        public virtual ObjectResult<UsuarioGetAllEF_Result> UsuarioGetAllEF()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetAllEF_Result>("UsuarioGetAllEF");
         }
     }
 }

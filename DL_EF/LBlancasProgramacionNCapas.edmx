@@ -30,6 +30,7 @@
           </Key>
           <Property Name="IdEstado" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Clave" Type="varchar" MaxLength="2" />
         </EntityType>
         <EntityType Name="Municipio">
           <Key>
@@ -178,6 +179,20 @@
           <Parameter Name="IdColonia" Type="int" Mode="In" />
         </Function>
         <Function Name="EstadoGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetConsonante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="Texto" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetCURP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoMaterno" Type="varchar" Mode="In" />
+          <Parameter Name="FechaNacimiento" Type="date" Mode="In" />
+          <Parameter Name="Sexo" Type="char" Mode="In" />
+          <Parameter Name="IdDireccion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetVocal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="Texto" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="MostrarUsuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="MunicipioGetByIdEstado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEstado" Type="tinyint" Mode="In" />
@@ -222,10 +237,29 @@
           <Parameter Name="Imagen" Type="varbinary(max)" Mode="In" />
           <Parameter Name="IdDireccion" Type="int" Mode="In" />
         </Function>
+        <Function Name="UsuarioAddWidthCURP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="IdRol" Type="tinyint" Mode="In" />
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoMaterno" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="FechaNacimiento" Type="varchar" Mode="In" />
+          <Parameter Name="Sexo" Type="char" Mode="In" />
+          <Parameter Name="Telefono" Type="varchar" Mode="In" />
+          <Parameter Name="Celular" Type="varchar" Mode="In" />
+          <Parameter Name="Estatus" Type="bit" Mode="In" />
+          <Parameter Name="Imagen" Type="varbinary(max)" Mode="In" />
+          <Parameter Name="IdDireccion" Type="int" Mode="In" />
+        </Function>
         <Function Name="UsuarioAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UsuarioDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdUsuario" Type="int" Mode="In" />
           <Parameter Name="IdDireccion" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="UsuarioDireccionDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
         </Function>
         <Function Name="UsuarioGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
@@ -233,6 +267,7 @@
           <Parameter Name="ApellidoMaterno" Type="varchar" Mode="In" />
           <Parameter Name="IdRol" Type="int" Mode="In" />
         </Function>
+        <Function Name="UsuarioGetAllEF" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UsuarioGetByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdUsuario" Type="int" Mode="In" />
         </Function>
@@ -318,6 +353,7 @@
           <Property Name="IdEstado" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Municipios" Relationship="Self.FK__Municipio__IdEst__797309D9" FromRole="Estado" ToRole="Municipio" />
+          <Property Name="Clave" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Municipio">
           <Key>
@@ -477,7 +513,7 @@
           <FunctionImport Name="DeleteSP">
           <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="DireccionAdd" ReturnType="Collection(Int32)">
+          <FunctionImport Name="DireccionAdd">
             <Parameter Name="Calle" Mode="In" Type="String" />
             <Parameter Name="NumeroExterior" Mode="In" Type="String" />
             <Parameter Name="NumeroInterior" Mode="In" Type="String" />
@@ -539,7 +575,7 @@
             <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="UsuarioAll" ReturnType="Collection(LBlancasProgramacionNCapasModel.UsuarioAll_Result)" />
-          <FunctionImport Name="UsuarioDelete" ReturnType="Collection(Int32)">
+          <FunctionImport Name="UsuarioDelete">
             <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
             <Parameter Name="IdDireccion" Mode="InOut" Type="Int32" />
           </FunctionImport>
@@ -549,6 +585,35 @@
             <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="CURP" Mode="In" Type="String" />
+            <Parameter Name="IdRol" Mode="In" Type="Byte" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="FechaNacimiento" Mode="In" Type="String" />
+            <Parameter Name="Sexo" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="String" />
+            <Parameter Name="Celular" Mode="In" Type="String" />
+            <Parameter Name="Estatus" Mode="In" Type="Boolean" />
+            <Parameter Name="Imagen" Mode="In" Type="Binary" />
+            <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioGetByID" ReturnType="Collection(LBlancasProgramacionNCapasModel.UsuarioGetByID_Result)">
+          <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateUsuarioIdEstatus">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="Estatus" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(LBlancasProgramacionNCapasModel.UsuarioGetAll_Result)">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+            <Parameter Name="IdRol" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioAddWidthCURP">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="IdRol" Mode="In" Type="Byte" />
             <Parameter Name="UserName" Mode="In" Type="String" />
             <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
@@ -576,6 +641,10 @@
           <FunctionImport Name="UsuarioGetByID" ReturnType="Collection(LBlancasProgramacionNCapasModel.UsuarioGetByID_Result)">
             <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="UsuarioDireccionDelete">
+          <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioGetAllEF" ReturnType="Collection(LBlancasProgramacionNCapasModel.UsuarioGetAllEF_Result)" />
         </EntityContainer>
         <ComplexType Name="ColoniaGetByIdMunicipio_Result">
           <Property Type="Int32" Name="IdColonia" Nullable="false" />
@@ -618,31 +687,6 @@
           <Property Type="Binary" Name="Imagen" Nullable="true" />
           <Property Type="Int32" Name="IdDireccion" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="UsuarioGetAll_Result">
-          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="CURP" Nullable="true" MaxLength="50" />
-          <Property Type="Byte" Name="IdRol" Nullable="true" />
-          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Email" Nullable="true" MaxLength="254" />
-          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaNacimiento" Nullable="true" />
-          <Property Type="String" Name="Sexo" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Celular" Nullable="true" MaxLength="20" />
-          <Property Type="Boolean" Name="Estatus" Nullable="false" />
-          <Property Type="Binary" Name="Imagen" Nullable="true" />
-          <Property Type="String" Name="NombreRol" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Calle" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="NumeroExterior" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="NumeroInterior" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="NombreColonia" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CodigoPostal" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="NombreMunicipio" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="NombreEstado" Nullable="true" MaxLength="50" />
-        </ComplexType>
         <ComplexType Name="UsuarioGetByID_Result">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
@@ -669,6 +713,62 @@
           <Property Type="Int32" Name="IdMunicipio" Nullable="true" />
           <Property Type="String" Name="NombreMunicipio" Nullable="true" MaxLength="50" />
           <Property Type="Byte" Name="IdEstado" Nullable="true" />
+          <Property Type="String" Name="NombreEstado" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="UsuarioGetAll_Result">
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CURP" Nullable="true" MaxLength="50" />
+          <Property Type="Byte" Name="IdRol" Nullable="true" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="254" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaNacimiento" Nullable="true" />
+          <Property Type="String" Name="Sexo" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Celular" Nullable="true" MaxLength="20" />
+          <Property Type="Boolean" Name="Estatus" Nullable="false" />
+          <Property Type="Binary" Name="Imagen" Nullable="true" />
+          <Property Type="String" Name="NombreRol" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Calle" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="NumeroExterior" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="NumeroInterior" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="NombreColonia" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CodigoPostal" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="NombreMunicipio" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NombreEstado" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="UsuarioGetAllEF_Result">
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CURP" Nullable="true" MaxLength="50" />
+          <Property Type="Byte" Name="IdRol" Nullable="true" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="254" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaNacimiento" Nullable="true" />
+          <Property Type="String" Name="Sexo" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Celular" Nullable="true" MaxLength="20" />
+          <Property Type="Boolean" Name="Estatus" Nullable="false" />
+          <Property Type="Binary" Name="Imagen" Nullable="true" />
+          <Property Type="String" Name="NombreRol" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Calle" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="NumeroExterior" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="NumeroInterior" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="IdColonia" Nullable="true" />
+          <Property Type="String" Name="NombreColonia" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NombreColonia" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CodigoPostal" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="IdMunicipio" Nullable="true" />
+          <Property Type="String" Name="NombreMunicipio" Nullable="true" MaxLength="50" />
+          <Property Type="Byte" Name="IdEstado" Nullable="true" />
+          <Property Type="String" Name="NombreEstado" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NombreMunicipio" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="NombreEstado" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
@@ -701,6 +801,7 @@
           <EntitySetMapping Name="Estadoes">
             <EntityTypeMapping TypeName="LBlancasProgramacionNCapasModel.Estado">
               <MappingFragment StoreEntitySet="Estado">
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
                 <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
               </MappingFragment>
@@ -825,6 +926,39 @@
           <FunctionImportMapping FunctionImportName="Usuarios1" FunctionName="LBlancasProgramacionNCapasModel.Store.Usuarios" />
           <FunctionImportMapping FunctionImportName="UsuariosRegistrados" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuariosRegistrados" />
           <FunctionImportMapping FunctionImportName="UsuarioUpdate" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioUpdate" />
+          <FunctionImportMapping FunctionImportName="UsuarioGetByID" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioGetByID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LBlancasProgramacionNCapasModel.UsuarioGetByID_Result">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CURP" ColumnName="CURP" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="IdDireccion" ColumnName="IdDireccion" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="NumeroExterior" ColumnName="NumeroExterior" />
+                <ScalarProperty Name="NumeroInterior" ColumnName="NumeroInterior" />
+                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
+                <ScalarProperty Name="NombreColonia" ColumnName="NombreColonia" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+                <ScalarProperty Name="NombreMunicipio" ColumnName="NombreMunicipio" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="NombreEstado" ColumnName="NombreEstado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateUsuarioIdEstatus" FunctionName="LBlancasProgramacionNCapasModel.Store.UpdateUsuarioIdEstatus" />
           <FunctionImportMapping FunctionImportName="UsuarioGetAll" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioGetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LBlancasProgramacionNCapasModel.UsuarioGetAll_Result">
@@ -854,10 +988,9 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="UpdateUsuarioIdEstatus" FunctionName="LBlancasProgramacionNCapasModel.Store.UpdateUsuarioIdEstatus" />
           <FunctionImportMapping FunctionImportName="UsuarioGetByID" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioGetByID">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="LBlancasProgramacionNCapasModel.UsuarioGetByID_Result">
+              <ComplexTypeMapping TypeName="LBlancasProgramacionNCapasModel.UsuarioGetAllEF_Result">
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="CURP" ColumnName="CURP" />
@@ -873,7 +1006,7 @@
                 <ScalarProperty Name="Celular" ColumnName="Celular" />
                 <ScalarProperty Name="Estatus" ColumnName="Estatus" />
                 <ScalarProperty Name="Imagen" ColumnName="Imagen" />
-                <ScalarProperty Name="IdDireccion" ColumnName="IdDireccion" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
                 <ScalarProperty Name="Calle" ColumnName="Calle" />
                 <ScalarProperty Name="NumeroExterior" ColumnName="NumeroExterior" />
                 <ScalarProperty Name="NumeroInterior" ColumnName="NumeroInterior" />

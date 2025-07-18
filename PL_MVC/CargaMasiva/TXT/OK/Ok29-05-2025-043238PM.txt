@@ -1,0 +1,5 @@
+Nombre|ApellidoPaterno|ApellidoMaterno|Email|UserName|FechaNacimiento|Sexo|CURP|Estatus|Telefono|Celular|Password|IdRol
+Juan|Guadarrama|Quintero|correo1134324@gmail.com|ElJuano21311|01-01-2001|M|GUQJ010101HMCLRNA1|False|5522334455|5522334455|Contra@1|2
+Ricardo|Perez|Tapia|Grayson113@gmail.com|ELRich1211|02-02-2002|M|PETG020202HMCLRNA1|False|5522664455|5522664455|Contra@1|1
+Andres|Degollado|Garcia|Alembert1133@gmail.com|ElDres1211|03-03-2003|M|DEGA030303HMCLRNA8|False|5533334455|5533334455|Contra@1|2
+Carlos|Ruiz|Villasenor|Correo11233@gmail.com|ElCharly111|04-02-2004|M|RUVC040404HMCLRNA7|False|5522339957|5522339957|Contra@1|1

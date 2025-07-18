@@ -1,0 +1,3 @@
+No se agregaron los siguientes usuarios:
+No se pudo insertar el usuario Juan1 Guadarrama Quintero debido a que: Para el nombre solo se permiten Letras, además cada uno debe iniciar con Mayuscula.
+

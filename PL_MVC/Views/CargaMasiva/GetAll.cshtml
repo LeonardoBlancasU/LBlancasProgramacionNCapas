@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Usuarios = Session["Usuarios"] as List<object>;
+    var Errores = Session["Errores"] as List<object>;
+    bool disabled = Convert.ToBoolean(Session["Disabled"]);
+    string extension = Convert.ToString(Session["Extension"]);
+    var archivo = Session["File"];
+}
+
+<h2>CARGA MASIVA</h2>
+<div class="container">
+
+    <div class="row mb-3">
+
+        <div class="col-12">
+            <a class="btn btn-outline-info w-100" data-bs-toggle="collapse" href="#formCargaMasiva" role="button" aria-expanded="false" aria-controls="formCargaMasiva">
+                Carga Masiva
+            </a>
+        </div>
+    </div>
+    <div class="collapse" id="formCargaMasiva">
+        <div class="card card-body">
+            @using (Html.BeginForm("Cargar", "CargaMasiva", FormMethod.Post, new { enctype = "multipart/form-data", @class = "needs-validation", novalidate = "novalidate" }))
+            {
+
+
+<div class="row">
+    @if (extension != null)
+    {
+        <div class="col-2">
+            <input class="form-check-input" type="radio" name="rdobtnCargaMasiva" value="TXT" @(extension =="TXT"? "checked" : "")/>
+            <label class="form-check-label" for="rdobtnCargaMasiva">TXT</label>
+        </div>
+        <br />
+        <div class="col-2">
+            <input class="form-check-input" type="radio" name="rdobtnCargaMasiva" value="EXCEL" @(extension =="EXCEL"? "checked" : "")/>
+            <label class="form-check-label" type="radio" name="rdobtnCargaMasiva">EXCEL</label>
+        </div>
+    }
+    else
+    {
+        <div class="col-2">
+            <input class="form-check-input" type="radio" name="rdobtnCargaMasiva" value="TXT" />
+            <label class="form-check-label" for="rdobtnCargaMasiva">TXT</label>
+        </div>
+        <br />
+        <div class="col-2">
+            <input class="form-check-input" type="radio" name="rdobtnCargaMasiva" value="EXCEL" />
+            <label class="form-check-label" type="radio" name="rdobtnCargaMasiva">EXCEL</label>
+        </div>
+    }
+</div><br /><div class="row">
+                    <div class="col-6">
+                        <label class="form-check-label">Cargar Archivo</label>
+                    </div>
+                </div><div class="row">
+                    
+                    <div class="col-6 mb-3">
+                        <input class="form-control w-100" type="file" name="inputCargaMasiva" id="inputCargaMasiva" @(disabled != true ? "disabled" : "") onchange="ValidarArchivo(event)" />
+                    </div>
+                    @*<br />*@
+                    <div class="col-2">
+                        <button class="btn btn-dark" type="submit" name="accion" value="validar" id="btnValidar" disabled>Validar</button>
+                    </div>
+                    <br />
+                    <div class="col-2">
+                        <button class="btn btn-success" type="submit" name="accion" value="cargar" id="btnCargar" @(disabled != true ? "disabled" : "")>Cargar</button>
+                    </div>
+                </div>
+
+
+
+
+            }
+        </div>
+    </div>
+    @if (Session["Errores"] != null || Session["Usuarios"] != null || Session["UsuarioNoInsertados"] != null)
+    {
+        <table class="table table-hover" id="tablaErrores">
+            <thead>
+                <tr>
+                    <td>Usuario</td>
+                    <td>No Insertado Debido a:</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Errores.Count; i++)
+                {
+                    <tr>
+                            <td>@Usuarios[i]</td>
+                            <td>@Errores[i]</td>
+                    </tr>
+                }
+                </tbody>
+        </table>
+    }
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            <i class="bi bi-check-all"> @TempData["Success"] </i>
+        </div>
+    }
+</div>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/CargaMasiva/CargaMasiva.js">
+</script>

@@ -1,0 +1,4 @@
+No se agregaron los siguientes usuarios:
+No se pudo insertar el usuario Juan Guadarrama1 Quintero debido a que: Para el apellido paterno solo se permiten Letras, además cada uno debe iniciar con Mayuscula.
+No se pudo insertar el usuario Andres Degollado1 Garcia debido a que: Para el apellido paterno solo se permiten Letras, además cada uno debe iniciar con Mayuscula.
+

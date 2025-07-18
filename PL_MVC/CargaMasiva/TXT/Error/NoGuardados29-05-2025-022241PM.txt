@@ -1,0 +1,6 @@
+No se agregaron los siguientes usuarios:
+Juan Guadarrama Quintero | No se pudo insertar el usuario debido a: An error occurred while executing the command definition. See the inner exception for details.
+Ricardo Perez Tapia | No se pudo insertar el usuario debido a: An error occurred while executing the command definition. See the inner exception for details.
+Andres Degollado Garcia | No se pudo insertar el usuario debido a: An error occurred while executing the command definition. See the inner exception for details.
+Carlos Ruiz Villasenor | No se pudo insertar el usuario debido a: An error occurred while executing the command definition. See the inner exception for details.
+

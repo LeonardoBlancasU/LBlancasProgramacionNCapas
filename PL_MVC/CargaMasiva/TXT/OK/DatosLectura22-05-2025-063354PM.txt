@@ -1,0 +1,5 @@
+Nombre|ApellidoPaterno|ApellidoMaterno|Email|UserName|FechaNacimiento|Sexo|CURP|Estatus|Telefono|Celular|Password|IdRol
+Jose|Galeana|Rincon|Jgaleana@gmail.com|JoseRi21|21-02-2001|M|GARJ010221HMCLRNA9|False|5512232352|5536763278|Contra1@|1
+Gerardo|Moreno|Torrado|gmotorrado@gmail.com|GeraMo2|14-05-2000|M|MOTG020514HMCLRNA4|True|5512123445|5567239843|Contra1@|2
+Martin|Castillo|Olivares|casstillolim@gmail.com|Maritn2K|15-10-2003|M|CAOM001015HMCLRNA4|True|5567347843|5567349026|Contra1@|1
+
