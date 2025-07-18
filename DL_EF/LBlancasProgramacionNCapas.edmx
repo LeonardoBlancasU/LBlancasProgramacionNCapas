@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LBlancasProgramacionNCapasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LBlancasProgramacionNCapasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Colonia">
           <Key>
             <PropertyRef Name="IdColonia" />
@@ -319,7 +319,8 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LBlancasProgramacionNCapasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -352,8 +353,8 @@
           </Key>
           <Property Name="IdEstado" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Municipios" Relationship="Self.FK__Municipio__IdEst__797309D9" FromRole="Estado" ToRole="Municipio" />
           <Property Name="Clave" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Municipios" Relationship="Self.FK__Municipio__IdEst__797309D9" FromRole="Estado" ToRole="Municipio" />
         </EntityType>
         <EntityType Name="Municipio">
           <Key>
@@ -501,19 +502,19 @@
             <Parameter Name="Imagen" Mode="In" Type="Binary" />
           </FunctionImport>
           <FunctionImport Name="ColoniaGetByIdMunicipio" ReturnType="Collection(LBlancasProgramacionNCapasModel.ColoniaGetByIdMunicipio_Result)">
-          <Parameter Name="IdMunicipio" Mode="In" Type="Int32" />
+            <Parameter Name="IdMunicipio" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Delete1">
             <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
             <Parameter Name="IdDireccion" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Delete2">
-          <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
+            <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteSP">
-          <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="DireccionAdd">
+          <FunctionImport Name="DireccionAdd" ReturnType="Collection(Int32)">
             <Parameter Name="Calle" Mode="In" Type="String" />
             <Parameter Name="NumeroExterior" Mode="In" Type="String" />
             <Parameter Name="NumeroInterior" Mode="In" Type="String" />
@@ -521,10 +522,10 @@
             <Parameter Name="IdDireccion" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DireccionDelete">
-          <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
+            <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DireccionGetById" ReturnType="Collection(LBlancasProgramacionNCapasModel.DireccionGetById_Result)">
-          <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
+            <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DireccionUpdate">
             <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
@@ -536,7 +537,7 @@
           <FunctionImport Name="EstadoGetAll" ReturnType="Collection(LBlancasProgramacionNCapasModel.EstadoGetAll_Result)" />
           <FunctionImport Name="MostrarUsuarios" />
           <FunctionImport Name="MunicipioGetByIdEstado" ReturnType="Collection(LBlancasProgramacionNCapasModel.MunicipioGetByIdEstado_Result)">
-          <Parameter Name="IdEstado" Mode="In" Type="Byte" />
+            <Parameter Name="IdEstado" Mode="In" Type="Byte" />
           </FunctionImport>
           <FunctionImport Name="ObtenerUsuarios" ReturnType="Collection(String)" />
           <FunctionImport Name="RolGetAll" ReturnType="Collection(LBlancasProgramacionNCapasModel.RolGetAll_Result)" />
@@ -557,6 +558,10 @@
             <Parameter Name="Estatus" Mode="In" Type="Boolean" />
             <Parameter Name="Imagen" Mode="In" Type="Binary" />
           </FunctionImport>
+          <FunctionImport Name="UpdateUsuarioIdEstatus">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="Estatus" Mode="In" Type="Boolean" />
+          </FunctionImport>
           <FunctionImport Name="UsuarioAdd">
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="CURP" Mode="In" Type="String" />
@@ -574,10 +579,39 @@
             <Parameter Name="Imagen" Mode="In" Type="Binary" />
             <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="UsuarioAddWidthCURP">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="IdRol" Mode="In" Type="Byte" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="FechaNacimiento" Mode="In" Type="String" />
+            <Parameter Name="Sexo" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="String" />
+            <Parameter Name="Celular" Mode="In" Type="String" />
+            <Parameter Name="Estatus" Mode="In" Type="Boolean" />
+            <Parameter Name="Imagen" Mode="In" Type="Binary" />
+            <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="UsuarioAll" ReturnType="Collection(LBlancasProgramacionNCapasModel.UsuarioAll_Result)" />
-          <FunctionImport Name="UsuarioDelete">
+          <FunctionImport Name="UsuarioDelete" ReturnType="Collection(Int32)">
             <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
             <Parameter Name="IdDireccion" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioDireccionDelete">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(LBlancasProgramacionNCapasModel.UsuarioGetAll_Result)">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+            <Parameter Name="IdRol" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioGetAllEF" ReturnType="Collection(LBlancasProgramacionNCapasModel.UsuarioGetAllEF_Result)" />
+          <FunctionImport Name="UsuarioGetByID" ReturnType="Collection(LBlancasProgramacionNCapasModel.UsuarioGetByID_Result)">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Usuarios1" />
           <FunctionImport Name="UsuariosRegistrados" />
@@ -599,52 +633,6 @@
             <Parameter Name="Imagen" Mode="In" Type="Binary" />
             <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="UsuarioGetByID" ReturnType="Collection(LBlancasProgramacionNCapasModel.UsuarioGetByID_Result)">
-          <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="UpdateUsuarioIdEstatus">
-            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
-            <Parameter Name="Estatus" Mode="In" Type="Boolean" />
-          </FunctionImport>
-          <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(LBlancasProgramacionNCapasModel.UsuarioGetAll_Result)">
-            <Parameter Name="Nombre" Mode="In" Type="String" />
-            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
-            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
-            <Parameter Name="IdRol" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="UsuarioAddWidthCURP">
-            <Parameter Name="Nombre" Mode="In" Type="String" />
-            <Parameter Name="IdRol" Mode="In" Type="Byte" />
-            <Parameter Name="UserName" Mode="In" Type="String" />
-            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
-            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
-            <Parameter Name="Email" Mode="In" Type="String" />
-            <Parameter Name="Password" Mode="In" Type="String" />
-            <Parameter Name="FechaNacimiento" Mode="In" Type="String" />
-            <Parameter Name="Sexo" Mode="In" Type="String" />
-            <Parameter Name="Telefono" Mode="In" Type="String" />
-            <Parameter Name="Celular" Mode="In" Type="String" />
-            <Parameter Name="Estatus" Mode="In" Type="Boolean" />
-            <Parameter Name="Imagen" Mode="In" Type="Binary" />
-            <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(LBlancasProgramacionNCapasModel.UsuarioGetAll_Result)">
-            <Parameter Name="Nombre" Mode="In" Type="String" />
-            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
-            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
-            <Parameter Name="IdRol" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="UpdateUsuarioIdEstatus">
-            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
-            <Parameter Name="Estatus" Mode="In" Type="Boolean" />
-          </FunctionImport>
-          <FunctionImport Name="UsuarioGetByID" ReturnType="Collection(LBlancasProgramacionNCapasModel.UsuarioGetByID_Result)">
-            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="UsuarioDireccionDelete">
-          <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="UsuarioGetAllEF" ReturnType="Collection(LBlancasProgramacionNCapasModel.UsuarioGetAllEF_Result)" />
         </EntityContainer>
         <ComplexType Name="ColoniaGetByIdMunicipio_Result">
           <Property Type="Int32" Name="IdColonia" Nullable="false" />
@@ -686,34 +674,6 @@
           <Property Type="Boolean" Name="Estatus" Nullable="false" />
           <Property Type="Binary" Name="Imagen" Nullable="true" />
           <Property Type="Int32" Name="IdDireccion" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="UsuarioGetByID_Result">
-          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="CURP" Nullable="true" MaxLength="50" />
-          <Property Type="Byte" Name="IdRol" Nullable="true" />
-          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Email" Nullable="true" MaxLength="254" />
-          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="FechaNacimiento" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="Sexo" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Celular" Nullable="true" MaxLength="20" />
-          <Property Type="Boolean" Name="Estatus" Nullable="false" />
-          <Property Type="Binary" Name="Imagen" Nullable="true" />
-          <Property Type="Int32" Name="IdDireccion" Nullable="true" />
-          <Property Type="String" Name="Calle" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="NumeroExterior" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="NumeroInterior" Nullable="true" MaxLength="20" />
-          <Property Type="Int32" Name="IdColonia" Nullable="true" />
-          <Property Type="String" Name="NombreColonia" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CodigoPostal" Nullable="true" MaxLength="10" />
-          <Property Type="Int32" Name="IdMunicipio" Nullable="true" />
-          <Property Type="String" Name="NombreMunicipio" Nullable="true" MaxLength="50" />
-          <Property Type="Byte" Name="IdEstado" Nullable="true" />
-          <Property Type="String" Name="NombreEstado" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="UsuarioGetAll_Result">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -760,15 +720,37 @@
           <Property Type="String" Name="Calle" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="NumeroExterior" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="NumeroInterior" Nullable="true" MaxLength="20" />
-          <Property Type="Int32" Name="IdColonia" Nullable="true" />
           <Property Type="String" Name="NombreColonia" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CodigoPostal" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="NombreMunicipio" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NombreEstado" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="UsuarioGetByID_Result">
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CURP" Nullable="true" MaxLength="50" />
+          <Property Type="Byte" Name="IdRol" Nullable="true" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="254" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="FechaNacimiento" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Sexo" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Celular" Nullable="true" MaxLength="20" />
+          <Property Type="Boolean" Name="Estatus" Nullable="false" />
+          <Property Type="Binary" Name="Imagen" Nullable="true" />
+          <Property Type="Int32" Name="IdDireccion" Nullable="true" />
+          <Property Type="String" Name="Calle" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="NumeroExterior" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="NumeroInterior" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="IdColonia" Nullable="true" />
           <Property Type="String" Name="NombreColonia" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="CodigoPostal" Nullable="true" MaxLength="10" />
           <Property Type="Int32" Name="IdMunicipio" Nullable="true" />
           <Property Type="String" Name="NombreMunicipio" Nullable="true" MaxLength="50" />
           <Property Type="Byte" Name="IdEstado" Nullable="true" />
-          <Property Type="String" Name="NombreEstado" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="NombreMunicipio" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="NombreEstado" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
@@ -801,9 +783,9 @@
           <EntitySetMapping Name="Estadoes">
             <EntityTypeMapping TypeName="LBlancasProgramacionNCapasModel.Estado">
               <MappingFragment StoreEntitySet="Estado">
-                <ScalarProperty Name="Clave" ColumnName="Clave" />
                 <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -899,7 +881,9 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="UpdateSP" FunctionName="LBlancasProgramacionNCapasModel.Store.UpdateSP" />
+          <FunctionImportMapping FunctionImportName="UpdateUsuarioIdEstatus" FunctionName="LBlancasProgramacionNCapasModel.Store.UpdateUsuarioIdEstatus" />
           <FunctionImportMapping FunctionImportName="UsuarioAdd" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioAdd" />
+          <FunctionImportMapping FunctionImportName="UsuarioAddWidthCURP" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioAddWidthCURP" />
           <FunctionImportMapping FunctionImportName="UsuarioAll" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LBlancasProgramacionNCapasModel.UsuarioAll_Result">
@@ -923,9 +907,65 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="UsuarioDelete" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioDelete" />
-          <FunctionImportMapping FunctionImportName="Usuarios1" FunctionName="LBlancasProgramacionNCapasModel.Store.Usuarios" />
-          <FunctionImportMapping FunctionImportName="UsuariosRegistrados" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuariosRegistrados" />
-          <FunctionImportMapping FunctionImportName="UsuarioUpdate" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioUpdate" />
+          <FunctionImportMapping FunctionImportName="UsuarioDireccionDelete" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioDireccionDelete" />
+          <FunctionImportMapping FunctionImportName="UsuarioGetAll" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LBlancasProgramacionNCapasModel.UsuarioGetAll_Result">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CURP" ColumnName="CURP" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="NumeroExterior" ColumnName="NumeroExterior" />
+                <ScalarProperty Name="NumeroInterior" ColumnName="NumeroInterior" />
+                <ScalarProperty Name="NombreColonia" ColumnName="NombreColonia" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="NombreMunicipio" ColumnName="NombreMunicipio" />
+                <ScalarProperty Name="NombreEstado" ColumnName="NombreEstado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UsuarioGetAllEF" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioGetAllEF">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LBlancasProgramacionNCapasModel.UsuarioGetAllEF_Result">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CURP" ColumnName="CURP" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="NumeroExterior" ColumnName="NumeroExterior" />
+                <ScalarProperty Name="NumeroInterior" ColumnName="NumeroInterior" />
+                <ScalarProperty Name="NombreColonia" ColumnName="NombreColonia" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="NombreMunicipio" ColumnName="NombreMunicipio" />
+                <ScalarProperty Name="NombreEstado" ColumnName="NombreEstado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="UsuarioGetByID" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioGetByID">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LBlancasProgramacionNCapasModel.UsuarioGetByID_Result">
@@ -958,68 +998,9 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="UpdateUsuarioIdEstatus" FunctionName="LBlancasProgramacionNCapasModel.Store.UpdateUsuarioIdEstatus" />
-          <FunctionImportMapping FunctionImportName="UsuarioGetAll" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioGetAll">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LBlancasProgramacionNCapasModel.UsuarioGetAll_Result">
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="CURP" ColumnName="CURP" />
-                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
-                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="Celular" ColumnName="Celular" />
-                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
-                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
-                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
-                <ScalarProperty Name="Calle" ColumnName="Calle" />
-                <ScalarProperty Name="NumeroExterior" ColumnName="NumeroExterior" />
-                <ScalarProperty Name="NumeroInterior" ColumnName="NumeroInterior" />
-                <ScalarProperty Name="NombreColonia" ColumnName="NombreColonia" />
-                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
-                <ScalarProperty Name="NombreMunicipio" ColumnName="NombreMunicipio" />
-                <ScalarProperty Name="NombreEstado" ColumnName="NombreEstado" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="UsuarioGetByID" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioGetByID">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LBlancasProgramacionNCapasModel.UsuarioGetAllEF_Result">
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="CURP" ColumnName="CURP" />
-                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
-                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="Celular" ColumnName="Celular" />
-                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
-                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
-                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
-                <ScalarProperty Name="Calle" ColumnName="Calle" />
-                <ScalarProperty Name="NumeroExterior" ColumnName="NumeroExterior" />
-                <ScalarProperty Name="NumeroInterior" ColumnName="NumeroInterior" />
-                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
-                <ScalarProperty Name="NombreColonia" ColumnName="NombreColonia" />
-                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
-                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
-                <ScalarProperty Name="NombreMunicipio" ColumnName="NombreMunicipio" />
-                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
-                <ScalarProperty Name="NombreEstado" ColumnName="NombreEstado" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Usuarios1" FunctionName="LBlancasProgramacionNCapasModel.Store.Usuarios" />
+          <FunctionImportMapping FunctionImportName="UsuariosRegistrados" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuariosRegistrados" />
+          <FunctionImportMapping FunctionImportName="UsuarioUpdate" FunctionName="LBlancasProgramacionNCapasModel.Store.UsuarioUpdate" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

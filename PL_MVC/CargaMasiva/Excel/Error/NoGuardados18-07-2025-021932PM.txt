@@ -1,0 +1,5 @@
+No se agregaron los siguientes usuarios:
+Jose Galeana Rincon | No se pudo insertar el usuario debido a: String was not recognized as a valid DateTime.
+Gerardo Moreno Torrado | No se pudo insertar el usuario debido a: String was not recognized as a valid DateTime.
+Martin Castillo Olivares | No se pudo insertar el usuario debido a: String was not recognized as a valid DateTime.
+

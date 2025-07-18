@@ -41,7 +41,7 @@ namespace PL_MVC.Controllers
             usuario.Direccion = new ML.Direccion();
             ML.Result resultRoles = BL.Rol.GetAllEFLQ();
             usuario.Rol.Roles = resultRoles.Correct ? resultRoles.Objects : new List<object>();
-            ML.Result resultRoles = BL.Rol.GetAllEFSP();
+            //ML.Result resultRoles = BL.Rol.GetAllEFSP();
             usuario.Rol.Roles = resultRoles.Objects;
             return View(usuario);
         }

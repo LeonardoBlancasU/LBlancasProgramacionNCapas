@@ -189,7 +189,7 @@ namespace BL
                 {
                     ObjectParameter idDireccion = new ObjectParameter("IdDireccion", typeof(int));
                     var rowsAffected = context.DireccionAdd(usuario.Direccion.Calle, usuario.Direccion.NumeroExterior, usuario.Direccion.NumeroInterior, usuario.Direccion.Colonia.IdColonia, idDireccion);
-                    if (rowsAffected > 0)
+                    if (Convert.ToInt32(rowsAffected) > 0)
                     {
                         result.Object = (int)idDireccion.Value; 
                         result.Correct = true;
@@ -344,7 +344,7 @@ namespace BL
                         query.NumeroExterior = usuario.Direccion.NumeroExterior;
                         query.NumeroInterior = usuario.Direccion.NumeroInterior;
                         query.IdColonia = usuario.Direccion.Colonia.IdColonia;
-                        int rowsAffected = context.SaveChanges();
+                        var rowsAffected = context.SaveChanges();
                         if (rowsAffected != null)
                         {
                             result.Correct = true;

@@ -29,12 +29,8 @@ function Buscar() {
 }
 
 function LimpiarCampos() {
-    $("#txtNombre").text('');
-    $("#txtApellidoPaterno").text('');
-    $("#txtApellidoMaterno").text('');
-    $("#ddlIdRol").empty();
-    $("#ddlIdRol").append('<option value="0">' + 'Seleccione una Colonia' + '</option>');
-    //$.each(result.Objects, function (i, roles) {
-    //    $("#ddlIdRol").append('<option value="' + colonias.IdColonia + '">' + colonias.Nombre + '</option>');
-    //});
+    $("#txtNombre").val('');
+    $("#txtApellidoPaterno").val('');
+    $("#txtApellidoMaterno").val('');
+    $("#ddlRol").val('');
 }
